@@ -4,7 +4,7 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class LogOutController extends Controller
 {
@@ -16,8 +16,7 @@ class LogOutController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('auth.login');
-        
+        return redirect()->route('login');
     }
 
 }

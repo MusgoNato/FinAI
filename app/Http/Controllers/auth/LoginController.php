@@ -13,13 +13,18 @@ class LoginController extends Controller
     {
         $credentials = $request->validated();
 
-        if(Auth::attempt($credentials)) 
+        // Para o 'Lembrar-me'
+        $remember = $request->boolean('remember');
+
+        if(Auth::attempt($credentials, $remember)) 
         {
             $request->session()->regenerate();
  
             return redirect()->intended('dashboard');
         }
 
-        return redirect()->route('register');
+        return back()->withErrors([
+            'message' => 'Email ou senha incorretos',
+        ]);
     }
 }

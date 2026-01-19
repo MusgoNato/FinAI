@@ -27,14 +27,16 @@
             </style>
         @endif
     </head>        
+
+    <body class="min-h-screen bg-base-200">
+
+        @auth
+            <x-nav.navbar />
+        @endauth
+
+        <main class="flex min-h-auto items-center justify-center px-4 mt-10">
+            {{ $slot }}
+        </main>
+    </body>
+
 </html>
-
-<body class="min-h-screen bg-base-200">
-
-    @auth
-        <x-nav.navbar />
-    @endauth
-    <main class="flex min-h-auto items-center justify-center px-4 mt-10">
-        {{ $slot }}
-    </main>
-</body>
