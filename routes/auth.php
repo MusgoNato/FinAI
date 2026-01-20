@@ -5,6 +5,7 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogOutController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\transactions\TransactionController;
 
 // Usuarios nao autenticados
 Route::middleware(['guest'])->group(function (){
@@ -28,4 +29,7 @@ Route::middleware(['guest'])->group(function (){
 Route::middleware(['auth'])->group(function (){
     Route::get('/dashboard', HomeController::class)->name('dashboard');
     Route::post('/logout', LogOutController::class)->name('logout');
+
+    // CRUD para transações
+    Route::resource('transactions', TransactionController::class);
 });

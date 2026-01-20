@@ -14,7 +14,7 @@
             Dashboard
         </a>
 
-        <a href="#"
+        <a href="{{ route('transactions.index') }}"
            class="btn btn-ghost btn-sm">
             Transações
         </a>

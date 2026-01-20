@@ -7,6 +7,7 @@ class HomeController extends Controller
     //
     public function __invoke()
     {
-        return view('dashboard');
+        $lastest_transactions = auth()->user()->transactions()->latest()->take(5)->get();
+        return view('dashboard', ['last_transactions' => $lastest_transactions]);
     }
 }
