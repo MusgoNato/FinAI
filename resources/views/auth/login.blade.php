@@ -53,6 +53,7 @@
                         <span class="label-text">Lembrar-me</span>
                     </label>
 
+                    <!-- Mensagem de erro -->
                     @error('message')
                     <div class="text-center">
                         <span class="text-error text-sm mt-1">
