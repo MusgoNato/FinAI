@@ -28,15 +28,23 @@
                             class="input input-bordered w-full" 
                             placeholder="Ex: Supermercado" 
                             required
+                            value="{{ old('description') }}"
+                            maxlength="80"
                         >
+                        @error('description')
+                            <span class="alert-error text-error">{{ $message }}</span>
+                        @enderror
                     </div>
-
+                    
                     <!-- Categoria -->
                     <div class="form-control mb-4">
                         <label class="label">
                             <!-- TODO: Fazer a categoria como componente separado -->
                             <span class="label-text">Categoria</span>
                         </label>
+                        @error('category')
+                            <span class="alert-error text-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Valor -->
@@ -49,9 +57,14 @@
                             name="price" 
                             class="input input-bordered w-full" 
                             step="0.01" 
-                            placeholder="Ex: 150.00" 
+                            placeholder="Ex: 150.00"
+                            max="9999999"
+                            value="{{ old('price') }}"
                             required
                         >
+                        @error('price')
+                            <span class="alert-error text-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Data -->
@@ -63,9 +76,12 @@
                             type="date" 
                             name="date" 
                             class="input input-bordered w-full" 
-                            value="{{ date('Y-m-d') }}" 
+                            value="{{ old('date') }}" 
                             required
                         >
+                        @error('date')
+                            <span class="alert-error text-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Observações -->
@@ -77,7 +93,12 @@
                             name="notes" 
                             class="textarea textarea-bordered w-full" 
                             placeholder="Ex: Compras no supermercado semanal"
-                        ></textarea>
+                            aria-valuetext="{{ old('notes') }}"   
+                        >
+                        @error('date')
+                            <span class="alert-error text-error">{{ $message }}</span>
+                        @enderror
+                        </textarea>
                     </div>
 
                     <!-- Botão de envio -->

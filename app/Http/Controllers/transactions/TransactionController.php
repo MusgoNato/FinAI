@@ -42,9 +42,9 @@ class TransactionController extends Controller
                 'notes' => $validate['notes'] ?? null,
                 'date' => $validate['date'],
             ]);
-        }
 
-        return redirect()->route('dashboard')->with(['success' => 'Despesa criada com sucesso']);
+            return redirect()->route('dashboard')->with(['success' => 'Despesa criada com sucesso']);
+        }
     }
 
     /**
