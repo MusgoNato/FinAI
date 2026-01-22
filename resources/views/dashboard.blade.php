@@ -83,6 +83,7 @@
                                     <th>Categoria</th>
                                     <th>Valor</th>
                                     <th>Data</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,6 +93,8 @@
                                         <td>Categoria</td>
                                         <td>{{ $transaction['price'] }}</td>
                                         <td>{{ $transaction['date']->format('m/d/Y') }}</td>
+                                        <td><a class="btn btn-primary w-full" href="{{ route('transactions.edit', $transaction->id) }}">Edit</a></td>
+                                        <td><a class="btn btn-error w-full" href="{{ route('transactions.destroy', $transaction->id) }}">Destroy</a></td>
                                     </tr>
                                 @empty
                                     <tr>
