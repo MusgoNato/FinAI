@@ -95,7 +95,7 @@
                             placeholder="Ex: Compras no supermercado semanal"
                             aria-valuetext="{{ old('notes') }}"   
                         >
-                        @error('date')
+                        @error('notes')
                             <span class="alert-error text-error">{{ $message }}</span>
                         @enderror
                         </textarea>

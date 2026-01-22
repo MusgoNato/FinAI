@@ -39,8 +39,8 @@ class TransactionController extends Controller
             auth()->user()->transactions()->create([
                 'description' => $validate['description'],
                 'price' => $validate['price'],
-                'notes' => $validate['notes'] ?? null,
                 'date' => $validate['date'],
+                'notes' => $validate['notes'] ?? null,
             ]);
 
             return redirect()->route('dashboard')->with(['success' => 'Despesa criada com sucesso']);

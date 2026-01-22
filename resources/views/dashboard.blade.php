@@ -27,23 +27,23 @@
         <!-- Cards resumo -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-            <div class="card bg-base-100 shadow">
+            <!-- <div class="card bg-base-100 shadow">
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Saldo Atual</p>
                     <h2 class="text-2xl font-bold text-success">
                         R$ 5.420,00
                     </h2>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="card bg-base-100 shadow">
+            <!-- <div class="card bg-base-100 shadow">
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Receitas</p>
                     <h2 class="text-2xl font-bold text-primary">
                         R$ 8.200,00
                     </h2>
                 </div>
-            </div>
+            </div> -->
 
             <div class="card bg-base-100 shadow">
                 <div class="card-body">
@@ -54,14 +54,14 @@
                 </div>
             </div>
 
-            <div class="card bg-base-100 shadow">
+            <!-- <div class="card bg-base-100 shadow">
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Economia</p>
                     <h2 class="text-2xl font-bold text-warning">
                         R$ 1.150,00
                     </h2>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -86,14 +86,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($last_transactions as $transaction)
+                                @forelse ($last_transactions as $transaction)
                                     <tr>
                                         <td>{{ $transaction['description'] }}</td>
                                         <td>Categoria</td>
                                         <td>{{ $transaction['price'] }}</td>
-                                        <td>{{ $transaction['date'] }}</td>
+                                        <td>{{ $transaction['date']->format('m/d/Y') }}</td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td class="text-center">Nenhuma transação realizada</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

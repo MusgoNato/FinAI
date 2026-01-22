@@ -28,6 +28,10 @@
                         autofocus
                         value="{{ old('email') }}"
                     >
+                    <!-- Erro email -->
+                    @error('email')
+                        <span class="alert-error text-error">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="form-control">
@@ -40,6 +44,10 @@
                         class="input input-bordered w-full"
                         required
                     >
+                    <!-- Erro senha -->
+                    @error('password')
+                        <span class="alert-error text-error">{{ $message }}</span>
+                    @enderror
                     <label class="label">
                         <a href="#" class="label-text-alt link link-hover">
                             Esqueceu a senha?

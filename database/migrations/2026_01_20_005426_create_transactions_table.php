@@ -17,6 +17,7 @@ return new class extends Migration
             // TODO: Adicionar categorias
             $table->string('description');
             $table->decimal('price', 15, 2);
+            $table->date('date');
             $table->text('notes')->nullable();
             $table->timestamps();
         });

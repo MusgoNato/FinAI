@@ -9,6 +9,7 @@ class Transaction extends Model
     protected $fillable = [
         'description',
         'price',
+        'date',
         'notes',
     ];
 
@@ -16,6 +17,7 @@ class Transaction extends Model
     // Sem isto o Larvel pode tratar o valor como float, contendo imprecisão binária
     // Garantia de receber sempre uma string, respeitando 2 casas decimais
     protected $casts = [
+        'date' => 'date',
         'price' => 'decimal:2',
     ];
 
