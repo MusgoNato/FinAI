@@ -35,13 +35,14 @@
                 </div>
             </div> -->
 
-            <!-- <div class="card bg-base-100 shadow">
+            <div class="card bg-base-100 shadow">
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Receitas</p>
                     <h2 class="text-2xl font-bold text-primary">
+                        R$ {{ number_format($total_by_category['Receita'], 2, ',', '.') }}
                     </h2>
                 </div>
-            </div> -->
+            </div>
 
             <div class="card bg-base-100 shadow">
                 <div class="card-body">
