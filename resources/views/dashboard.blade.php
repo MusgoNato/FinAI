@@ -137,7 +137,7 @@
                     
                     <a class="btn btn-error btn-outline w-full" href="{{ route('transactions.create') }}">Nova Transação</a>
                     
-                    <a class="btn btn-secondary btn-outline w-full" href="#">Relatórios</a>
+                    <a class="btn btn-secondary btn-outline w-full" href="#"><del>Relatórios</del></a>
                 </div>
             </div>
 

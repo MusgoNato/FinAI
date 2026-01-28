@@ -16,12 +16,12 @@
 
         <a href="{{ route('transactions.index') }}"
            class="btn btn-ghost btn-sm">
-            Transações
+            <del>Transações</del>
         </a>
 
         <a href="#"
            class="btn btn-ghost btn-sm">
-            Relatórios
+            <del>Relatórios</del>
         </a>
     </div>
 
@@ -47,13 +47,13 @@
 
                 <li>
                     <a class="block w-full px-4 py-2 hover:bg-base-200 text-sm" href="#">
-                        Perfil
+                        <del>Perfil</del>
                     </a>
                 </li>
 
                 <li>
                     <a class="block w-full px-4 py-2 hover:bg-base-200 text-sm" href="#">
-                        Configurações
+                        <del>Configurações</del>
                     </a>
                 </li>
 
