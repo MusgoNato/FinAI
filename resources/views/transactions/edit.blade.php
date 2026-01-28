@@ -4,18 +4,19 @@
         <!-- Header -->
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-base-content">
-                Nova Despesa
+                Editar Despesa
             </h1>
             <p class="text-sm text-base-content/70 mt-1">
-                Preencha os dados abaixo para registrar uma nova despesa.
+                Preencha os dados abaixo para registrar a despesa.
             </p>
         </div>
 
         <!-- Formulário -->
         <div class="card bg-base-100 shadow">
             <div class="card-body">
-                <form method="POST" action="{{ route('transactions.store') }}">
+                <form method="POST" action="{{ route('transactions.update', $transaction_info->id) }}">
                     @csrf
+                    @method('PUT')
 
                     <!-- Descrição -->
                     <div class="form-control mb-4">
@@ -28,7 +29,7 @@
                             class="input input-bordered w-full" 
                             placeholder="Ex: Supermercado" 
                             required
-                            value="{{ old('description') }}"
+                            value="{{ $transaction_info->description }}"
                             maxlength="80"
                         >
                         @error('description')
@@ -59,7 +60,7 @@
                             step="0.01" 
                             placeholder="Ex: 150.00"
                             max="9999999"
-                            value="{{ old('price') }}"
+                            value="{{ $transaction_info->price }}"
                             required
                         >
                         @error('price')
@@ -76,7 +77,7 @@
                             type="date" 
                             name="date" 
                             class="input input-bordered w-full" 
-                            value="{{ old('date') }}" 
+                            value="{{ $transaction_info->date->format('Y-m-d') }}" 
                             required
                         >
                         @error('date')
@@ -89,19 +90,19 @@
                         <label class="label">
                             <span class="label-text">Observações (opcional)</span>
                         </label>
-                        <textarea name="notes" class="textarea textarea-bordered w-full" placeholder="Ex: Compras no supermercado semanal" aria-valuetext="{{ old('notes') }}"></textarea>
+                        <textarea name="notes" class="textarea textarea-bordered w-full" placeholder="Ex: Compras no supermercado semanal" aria-valuetext="{{ $transaction_info->notes }}"></textarea>
                         @error('notes')
                             <span class="alert-error text-error">{{ $message }}</span>
                         @enderror
                     </div>
+                    
 
                     <!-- Botão de envio -->
                     <div class="form-control mt-6">
                         <button type="submit" class="btn btn-error w-full">
-                            Registrar Despesa
+                            Atualizar Despesa
                         </button>
                     </div>
-
                 </form>
             </div>
         </div>

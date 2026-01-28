@@ -4,7 +4,7 @@ namespace App\Http\Requests\transactions;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTransaction extends FormRequest
+class TransactionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,6 +28,5 @@ class CreateTransaction extends FormRequest
             'date' => 'required|date',
             'notes' => 'nullable|string|max:255',
         ];
-
     }
 }
