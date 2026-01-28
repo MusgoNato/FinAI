@@ -1,5 +1,4 @@
 <x-layout title="Dashboard">
-
     <!-- Alert -->
     @if (session('success'))
         <div class="fixed top-18 left-1/2 transform -translate-x-1/2 z-50">
@@ -40,7 +39,6 @@
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Receitas</p>
                     <h2 class="text-2xl font-bold text-primary">
-                        R$ 8.200,00
                     </h2>
                 </div>
             </div> -->
@@ -49,7 +47,7 @@
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Despesas</p>
                     <h2 class="text-2xl font-bold text-error">
-                        R$ 2.780,00
+                        R$ {{ number_format($total_by_category['Despesa'], 2, ',', '.') }}
                     </h2>
                 </div>
             </div>
@@ -91,7 +89,7 @@
                                     <tr>
                                         <td>{{ $transaction['description'] }}</td>
                                         <td>{{ $transaction['category'] }}</td>
-                                        <td>{{ $transaction['price'] }}</td>
+                                        <td>{{ number_format($transaction['price'], 2, ',', '.') }}</td>
                                         <td>{{ $transaction['date']->format('m/d/Y') }}</td>
                                         <td>
                                             <a class="btn" href="{{ route('transactions.edit', $transaction->id) }}">
