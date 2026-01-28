@@ -3,7 +3,7 @@
     <div class="flex-1">
         <a href="{{ route('dashboard') }}"
            class="text-lg font-semibold text-primary tracking-tight">
-            FinAi
+            FinAI
         </a>
     </div>
 

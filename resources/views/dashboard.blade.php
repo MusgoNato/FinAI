@@ -2,7 +2,7 @@
     <!-- Alert -->
     @if (session('success'))
         <div class="fixed top-18 left-1/2 transform -translate-x-1/2 z-50">
-            <div class="alert alert-success shadow-lg flex items-center gap-2 w-96">
+            <div class="alert alert-success shadow-lg flex items-center gap-2 w-96 fade-out">
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current h-6 w-6" fill="none" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
@@ -26,14 +26,14 @@
         <!-- Cards resumo -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-            <!-- <div class="card bg-base-100 shadow">
+            <div class="card bg-base-100 shadow">
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Saldo Atual</p>
                     <h2 class="text-2xl font-bold text-success">
-                        R$ 5.420,00
+                        R$ {{ number_format($total_balance, 2, ',', '.') }}
                     </h2>
                 </div>
-            </div> -->
+            </div>
 
             <div class="card bg-base-100 shadow">
                 <div class="card-body">
@@ -129,17 +129,15 @@
             </div>
 
             <!-- Ações rápidas -->
-            <div class="card bg-base-100 shadow">
-                <div class="card-body space-y-4">
-                    <h2 class="card-title">
-                        Ações Rápidas
-                    </h2>
-                    
-                    <a class="btn btn-error btn-outline w-full" href="{{ route('transactions.create') }}">Nova Transação</a>
-                    
-                    <a class="btn btn-secondary btn-outline w-full" href="#"><del>Relatórios</del></a>
+                <div class="card bg-base-100 shadow flex flex-col lg:h-75">
+                    <div class="card-body space-y-4 flex-1">
+                        <h2 class="card-title">Ações Rápidas</h2>
+                        
+                        <a class="btn btn-error btn-outline w-full" href="{{ route('transactions.create') }}">Nova Transação</a>
+                        
+                        <a class="btn btn-secondary btn-outline w-full" href="#"><del>Relatórios</del></a>
+                    </div>
                 </div>
-            </div>
 
         </div>
 

@@ -14,7 +14,10 @@ class HomeController extends Controller
         $total_by_category = auth()->user()->transactions()->selectRaw("category, SUM(price) as total")
         ->groupBy('category')
         ->pluck('total', 'category');
+
+        // Saldo atual
+        $total_balance = $total_by_category['Receita'] - $total_by_category['Despesa']; 
         
-        return view('dashboard', ['last_transactions' => $lastest_transactions, 'total_by_category' => $total_by_category]);
+        return view('dashboard', ['last_transactions' => $lastest_transactions, 'total_by_category' => $total_by_category, 'total_balance' => $total_balance]);
     }
 }

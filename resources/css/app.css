@@ -10,3 +10,19 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Define a animação de fade-out */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Classe que aplica a animação */
+.alert.fade-out {
+    animation: fadeOut 0.5s ease forwards;
+    animation-delay: 3s; /* espera 3s antes de começar o fade */
+}
