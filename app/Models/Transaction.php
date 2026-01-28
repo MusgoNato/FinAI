@@ -8,6 +8,7 @@ class Transaction extends Model
 {
     protected $fillable = [
         'description',
+        'category',
         'price',
         'date',
         'notes',

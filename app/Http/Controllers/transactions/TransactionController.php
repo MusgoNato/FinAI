@@ -38,6 +38,7 @@ class TransactionController extends Controller
         {
             auth()->user()->transactions()->create([
                 'description' => $validate['description'],
+                'category' => $validate['category'],
                 'price' => $validate['price'],
                 'date' => $validate['date'],
                 'notes' => $validate['notes'] ?? null,

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            // TODO: Adicionar categorias
             $table->string('description');
+            $table->enum('category', ['Receita', 'Despesa']);
             $table->decimal('price', 15, 2);
             $table->date('date');
             $table->text('notes')->nullable();

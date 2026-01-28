@@ -4,10 +4,10 @@
         <!-- Header -->
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-base-content">
-                Editar Despesa
+                Editar Transação
             </h1>
             <p class="text-sm text-base-content/70 mt-1">
-                Preencha os dados abaixo para registrar a despesa.
+                Preencha os dados abaixo para registrar a transação.
             </p>
         </div>
 
@@ -40,9 +40,9 @@
                     <!-- Categoria -->
                     <div class="form-control mb-4">
                         <label class="label">
-                            <!-- TODO: Fazer a categoria como componente separado -->
-                            <span class="label-text">Categoria</span>
+                            <span class="label-text">Selecione uma Categoria</span>
                         </label>
+                        <x-category :selected="old('category', $transaction_info->category)" />
                         @error('category')
                             <span class="alert-error text-error">{{ $message }}</span>
                         @enderror

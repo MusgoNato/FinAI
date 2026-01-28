@@ -90,7 +90,7 @@
                                 @forelse ($last_transactions as $transaction)
                                     <tr>
                                         <td>{{ $transaction['description'] }}</td>
-                                        <td>Categoria</td>
+                                        <td>{{ $transaction['category'] }}</td>
                                         <td>{{ $transaction['price'] }}</td>
                                         <td>{{ $transaction['date']->format('m/d/Y') }}</td>
                                         <td>
@@ -136,7 +136,7 @@
                         Ações Rápidas
                     </h2>
                     
-                    <a class="btn btn-error btn-outline w-full" href="{{ route('transactions.create') }}">Nova Despesa</a>
+                    <a class="btn btn-error btn-outline w-full" href="{{ route('transactions.create') }}">Nova Transação</a>
                     
                     <a class="btn btn-secondary btn-outline w-full" href="#">Relatórios</a>
                 </div>
