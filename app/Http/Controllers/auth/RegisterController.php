@@ -15,17 +15,15 @@ class RegisterController extends Controller
     {
         $validation = $request->validated();
 
-        if($validation)
-        {
-            $user = User::create([
-                'name' => $validation['name'],
-                'email' => $validation['email'],
-                'password' => Hash::make($validation['password']), 
-            ]);
+        $user = User::create([
+            'name' => $validation['name'],
+            'email' => $validation['email'],
+            'email_verified_at' => null,
+            'password' => Hash::make($validation['password']), 
+        ]);
 
-            Auth::login($user);
+        Auth::login($user);
 
-            return redirect()->route('dashboard');
-        }
+        return redirect()->route('dashboard');
     }
 }
