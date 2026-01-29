@@ -1,4 +1,15 @@
 <x-layout title="Login">
+    @if (session('success'))
+        <div class="fixed top-18 left-1/2 transform -translate-x-1/2 z-50">
+            <div class="alert alert-success shadow-lg flex items-center gap-2 w-96 fade-out">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>{{ session('success') }}</span>
+            </div>
+        </div>
+    @endif
+    
     <div class="card w-full max-w-md shadow-2xl">
         <div class="card-body">
 
@@ -49,7 +60,7 @@
                         <span class="alert-error text-error">{{ $message }}</span>
                     @enderror
                     <label class="label">
-                        <a href="#" class="label-text-alt link link-hover">
+                        <a href="{{ route('password.request') }}" class="label-text-alt link link-hover">
                             Esqueceu a senha?
                         </a>
                     </label>

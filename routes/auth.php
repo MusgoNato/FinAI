@@ -7,8 +7,12 @@ use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\mail\MailVerificationController;
 use App\Http\Controllers\transactions\TransactionController;
+use App\Http\Controllers\user\ForgotPasswordController;
+use App\Http\Controllers\user\ResetPasswordController;
+use App\Http\Controllers\user\ResettPasswordController;
 use App\Http\Controllers\user\UserProfileController;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 // Usuarios nao autenticados
@@ -26,6 +30,19 @@ Route::middleware(['guest'])->group(function (){
     // Login por google email
     Route::get('/auth/google/redirect', [GoogleLoginController::class, 'redirect'])->name('google.redirect');
     Route::get('/auth/google/callback', [GoogleLoginController::class, 'callback']);
+
+    // Esqueci a senha
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+        ->name('password.request');
+
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+        ->name('password.email');
+
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+        ->name('password.reset');
+
+    Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+        ->name('password.update');
 
 });
 
