@@ -5,8 +5,10 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogOutController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\mail\MailVerificationController;
 use App\Http\Controllers\transactions\TransactionController;
 use App\Http\Controllers\user\UserProfileController;
+use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 // Usuarios nao autenticados
@@ -24,11 +26,32 @@ Route::middleware(['guest'])->group(function (){
     // Login por google email
     Route::get('/auth/google/redirect', [GoogleLoginController::class, 'redirect'])->name('google.redirect');
     Route::get('/auth/google/callback', [GoogleLoginController::class, 'callback']);
+
+});
+
+// Validação email
+Route::middleware(['auth'])->group(function () {
+    // view para envio de codigo
+    Route::get('/email/verify', [MailVerificationController::class, 'notice'])
+        ->name('verification.notice');
+
+    // Envio do código via email
+    Route::post('/email/verification-notification', [MailVerificationController::class, 'resend'])
+        ->name('verification.send');
+
+    // Formulario para adicionar o código e enviar à aplicação 
+    Route::get('/email/verify/code', [MailVerificationController::class, 'form'])
+        ->name('verification.form');
+
+    // Verificação código por parte da aplicação
+    Route::post('/email/verify/code', [MailVerificationController::class, 'verify'])
+        ->name('verification.verify');
 });
 
 
+
 // Usuarios autenticados
-Route::middleware(['auth'])->group(function (){
+Route::middleware(['auth', 'verified'])->group(function (){
     Route::get('/dashboard', HomeController::class)->name('dashboard');
     Route::post('/logout', LogOutController::class)->name('logout');
 
