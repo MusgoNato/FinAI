@@ -44,7 +44,7 @@ class TransactionController extends Controller
                 'notes' => $validate['notes'] ?? null,
             ]);
 
-            return redirect()->route('dashboard')->with(['success' => 'Despesa criada com sucesso']);
+            return redirect()->route('dashboard')->with(['success' => 'Transação criada com sucesso']);
         }
     }
 
@@ -74,7 +74,7 @@ class TransactionController extends Controller
         //
         $transaction->update($request->validated());
 
-        return redirect()->route('dashboard')->with(['success' => 'Despesa atualizada com sucesso']);
+        return redirect()->route('dashboard')->with(['success' => 'Transação atualizada com sucesso']);
     }
 
     /**

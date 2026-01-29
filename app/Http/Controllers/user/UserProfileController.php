@@ -7,6 +7,7 @@ use App\Http\Requests\user\PasswordUpdateRequest;
 use App\Http\Requests\user\UserProfileRequest;
 use Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserProfileController extends Controller
 {
@@ -35,8 +36,25 @@ class UserProfileController extends Controller
      */
     public function update(UserProfileRequest $request)
     {
+
         $user = auth()->user();
-        $user->update($request->validated()); 
+
+        // Se existe foto, atualiza a mesma
+        if($request->hasFile('profile_image'))
+        {
+            $image = $request->file('profile_image');
+            $name = time().'_'.$image->getClientOriginalName();
+            $path = $image->storeAs('profile_images', $name, 'public');
+
+            // Deleta o que ja existia
+            if($user->profile_image)
+            {
+                Storage::disk('public')->delete($user->profile_image);
+            }
+
+            $user->profile_image = $path;
+            $user->save();
+        }
 
         return redirect()->route('profile.show')->with(['success' => 'Perfil atualizado com sucesso']);
     }

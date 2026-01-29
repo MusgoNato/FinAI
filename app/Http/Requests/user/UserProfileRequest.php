@@ -23,6 +23,8 @@ class UserProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:255',
+            // --- Validação do email ----
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

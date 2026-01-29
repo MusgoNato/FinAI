@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image',
     ];
 
     /**
@@ -49,5 +50,15 @@ class User extends Authenticatable
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function getProfileImageUrlAttribute()
+    {
+        if($this->profile_image)
+        {
+            return asset('storage/' . $this->profile_image);
+        }
+
+        return asset('storage/profile_images/default-avatar.png');
     }
 }

@@ -31,8 +31,8 @@
             <label tabindex="0"
                    class="btn btn-ghost btn-sm btn-circle avatar">
                 <div
-                    class="w-9 rounded-full bg-primary text-primary-content flex items-center justify-center font-medium">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    class="w-9 rounded-full text-primary-content flex items-center justify-center font-medium">
+                    <img src="{{ auth()->user()->profile_image_url }}" alt="Profile Image">
                 </div>
             </label>
 
