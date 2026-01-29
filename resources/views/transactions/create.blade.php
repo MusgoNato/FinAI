@@ -101,7 +101,7 @@
                     <!-- Botão de envio -->
                     <div class="form-control mt-6">
                         <button type="submit" class="btn btn-error w-full">
-                            Registrar Despesa
+                            Registrar Transação
                         </button>
                     </div>
 

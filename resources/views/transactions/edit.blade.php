@@ -100,7 +100,7 @@
                     <!-- Botão de envio -->
                     <div class="form-control mt-6">
                         <button type="submit" class="btn btn-error w-full">
-                            Atualizar Despesa
+                            Atualizar Transação
                         </button>
                     </div>
                 </form>

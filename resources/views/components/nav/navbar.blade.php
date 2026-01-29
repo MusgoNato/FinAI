@@ -46,8 +46,8 @@
                 <div class="divider my-0"></div>
 
                 <li>
-                    <a class="block w-full px-4 py-2 hover:bg-base-200 text-sm" href="#">
-                        <del>Perfil</del>
+                    <a class="block w-full px-4 py-2 hover:bg-base-200 text-sm" href="{{ route('profile.show') }}">
+                        Perfil
                     </a>
                 </li>
 
