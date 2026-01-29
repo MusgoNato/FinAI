@@ -27,6 +27,7 @@
             <div class="card bg-base-100 shadow flex flex-col items-center p-6">
                 <div class="avatar mb-4">
                     <div class="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        <img src="{{ $user->profile_image_url }}" alt="Profile Image" width="150">
                     </div>
                 </div>
 

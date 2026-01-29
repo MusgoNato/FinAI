@@ -53,8 +53,8 @@
                     <label class="label">
                         <span class="label-text">Foto de Perfil</span>
                     </label>
-                    <input type="file" name="profile_photo" class="file-input file-input-bordered w-full">
-                    @error('profile_photo')
+                    <input type="file" name="profile_image" class="file-input file-input-bordered w-full">
+                    @error('profile_image')
                         <span class="text-error text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
