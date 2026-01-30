@@ -9,11 +9,8 @@ use App\Http\Controllers\mail\MailVerificationController;
 use App\Http\Controllers\transactions\TransactionController;
 use App\Http\Controllers\user\ForgotPasswordController;
 use App\Http\Controllers\user\ResetPasswordController;
-use App\Http\Controllers\user\ResettPasswordController;
 use App\Http\Controllers\user\UserProfileController;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 // Usuarios nao autenticados
 Route::middleware(['guest'])->group(function (){

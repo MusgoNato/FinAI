@@ -23,7 +23,7 @@ class TransactionRequest extends FormRequest
     {
         return [
             'description' => 'required|string|max:80',
-            'category' => 'required|in:Receita,Despesa',
+            'category' => 'required|in:Alimentacao,Renda,Transporte,Lazer,Outros',
             'price' => 'required|numeric|min:0|max:9999999',
             'date' => 'required|date',
             'notes' => 'nullable|string|max:255',

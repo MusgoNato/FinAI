@@ -13,8 +13,11 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
-        return view('transactions.index');
+        // TODO: Desenvolver a tabela dinamica para mostrar todas as transacoes realizadas pelo usuario
+        // Obs: No momento estão estaticas as informações mas deve ser daquele jeito a serem apresentadas
+        $transactions = auth()->user()->transactions()->orderBy('created_at', 'desc')->paginate(2);
+    
+        return view('transactions.index', ['transactions' => $transactions]);
     }
 
     /**
@@ -44,7 +47,7 @@ class TransactionController extends Controller
                 'notes' => $validate['notes'] ?? null,
             ]);
 
-            return redirect()->route('dashboard')->with(['success' => 'Transação criada com sucesso']);
+            return back()->with(['success' => 'Transação criada com sucesso']);
         }
     }
 

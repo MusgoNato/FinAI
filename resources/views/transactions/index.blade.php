@@ -14,7 +14,7 @@
 
             <div class="flex gap-2">
                 <a href="{{ route('transactions.create') }}" class="btn btn-error btn-outline">
-                    Nova Despesa
+                    Nova Transação
                 </a>
             </div>
         </div>
@@ -70,17 +70,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $sampleTransactions = [
-                                    ['description'=>'Supermercado', 'category'=>'Alimentação', 'type'=>'expense', 'price'=>230, 'date'=>'10/01/2026'],
-                                    ['description'=>'Salário', 'category'=>'Renda', 'type'=>'income', 'price'=>5000, 'date'=>'05/01/2026'],
-                                    ['description'=>'Uber', 'category'=>'Transporte', 'type'=>'expense', 'price'=>45, 'date'=>'12/01/2026'],
-                                    ['description'=>'Freelance', 'category'=>'Renda', 'type'=>'income', 'price'=>1200, 'date'=>'15/01/2026'],
-                                    ['description'=>'Cinema', 'category'=>'Lazer', 'type'=>'expense', 'price'=>60, 'date'=>'18/01/2026'],
-                                ];
-                            @endphp
-
-                            @foreach ($sampleTransactions as $transaction)
+                            @foreach ($transactions as $transaction)
                                 <tr>
                                     <td>{{ $transaction['description'] }}</td>
                                     <td>{{ $transaction['category'] }}</td>
@@ -93,13 +83,13 @@
                                     </td>
                                     <td>{{ $transaction['date'] }}</td>
                                     <td class="flex gap-2">
-                                        <a href="#" class="btn btn-sm btn-ghost">
+                                        <a href="{{ route('transactions.edit', $transaction['id']) }}" class="btn btn-sm btn-ghost">
                                             Editar
                                         </a>
-                                        <form method="POST" action="#">
+                                        <form method="POST" action="{{ route('transactions.destroy', $transaction['id']) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-error">
+                                            <button class="btn btn-sm btn-error" onclick="return confirm('Deseja realmente excluir este registro?')">
                                                 Excluir
                                             </button>
                                         </form>
@@ -109,15 +99,15 @@
 
                         </tbody>
                     </table>
+                    @if($transactions->isEmpty())
+                        <div class="alert justify-center">Não há nenhuma transação registrada</div>
+                    @endif
                 </div>
 
                 <!-- Paginação fictícia -->
                 <div class="mt-4">
-                    <ul class="pagination flex gap-1 justify-center">
-                        <li><a class="btn btn-sm">1</a></li>
-                        <li><a class="btn btn-sm btn-active">2</a></li>
-                        <li><a class="btn btn-sm">3</a></li>
-                        <li><a class="btn btn-sm">4</a></li>
+                    <ul class="pagination flex gap-1 justify-end">
+                        {{ $transactions->links() }}
                     </ul>
                 </div>
             </div>

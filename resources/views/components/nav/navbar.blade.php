@@ -16,7 +16,7 @@
 
         <a href="{{ route('transactions.index') }}"
            class="btn btn-ghost btn-sm">
-            <del>Transações</del>
+            Transações
         </a>
 
         <a href="#"
