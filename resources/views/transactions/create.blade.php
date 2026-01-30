@@ -49,6 +49,19 @@
                         @enderror
                     </div>
 
+                    <!-- Tipo da transação -->
+                    <div class="form-control mb-4">
+                        <label class="label">
+                            <span class="label-text">Selecione o tipo da transação</span>
+                        </label>
+
+                        <x-type />
+
+                        @error('type')
+                            <span class="alert-error text-error">{{ $message }}</span>
+                        @enderror
+                    </div>
+
 
                     <!-- Valor -->
                     <div class="form-control mb-4">

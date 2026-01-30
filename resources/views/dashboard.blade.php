@@ -39,7 +39,7 @@
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Receitas</p>
                     <h2 class="text-2xl font-bold text-primary">
-                        R$ {{ number_format($total_by_category['Receita'], 2, ',', '.') }}
+                        R$ {{ number_format($total_by_type['Receita'], 2, ',', '.') }}
                     </h2>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <div class="card-body">
                     <p class="text-sm text-base-content/70">Despesas</p>
                     <h2 class="text-2xl font-bold text-error">
-                        R$ {{ number_format($total_by_category['Despesa'], 2, ',', '.') }}
+                        R$ {{ number_format($total_by_type['Despesa'], 2, ',', '.') }}
                     </h2>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                                         <td>{{ $transaction['description'] }}</td>
                                         <td>{{ $transaction['category'] }}</td>
                                         <td>{{ number_format($transaction['price'], 2, ',', '.') }}</td>
-                                        <td>{{ $transaction['date']->format('m/d/Y') }}</td>
+                                        <td>{{ $transaction['date']->format('d-m-Y') }}</td>
                                         <td>
                                             <a class="btn" href="{{ route('transactions.edit', $transaction->id) }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-600">

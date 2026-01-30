@@ -75,13 +75,13 @@
                                     <td>{{ $transaction['description'] }}</td>
                                     <td>{{ $transaction['category'] }}</td>
                                     <td>
-                                        <span class="text-error font-medium">Despesa</span>
+                                        <span class="text-error font-medium">{{ $transaction['type'] }}</span>
                                     </td>
-                                    <td class="{{ $transaction['type'] === 'income' ? 'text-success' : 'text-error' }}">
-                                        {{ $transaction['type'] === 'income' ? '+' : '-' }} 
+                                    <td class="{{ $transaction['type'] === 'Receita' ? 'text-success' : 'text-error' }}">
+                                        {{ $transaction['type'] === 'Receita' ? '+' : '-' }} 
                                         R$ {{ number_format($transaction['price'], 2, ',', '.') }}
                                     </td>
-                                    <td>{{ $transaction['date'] }}</td>
+                                    <td>{{ $transaction['date']->format('d-m-Y') }}</td>
                                     <td class="flex gap-2">
                                         <a href="{{ route('transactions.edit', $transaction['id']) }}" class="btn btn-sm btn-ghost">
                                             Editar

@@ -36,18 +36,18 @@ class TransactionController extends Controller
     {
         //
         $validate = $request->validated();
-
         if($validate)
         {
             auth()->user()->transactions()->create([
                 'description' => $validate['description'],
                 'category' => $validate['category'],
+                'type' => $validate['type'],
                 'price' => $validate['price'],
                 'date' => $validate['date'],
                 'notes' => $validate['notes'] ?? null,
             ]);
 
-            return back()->with(['success' => 'Transação criada com sucesso']);
+            return redirect()->route('transactions.index')->with(['success' => 'Transação criada com sucesso']);
         }
     }
 
