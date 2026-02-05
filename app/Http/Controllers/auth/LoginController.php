@@ -5,6 +5,7 @@ namespace App\Http\Controllers\auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\auth\LoginRequest;
 use Auth;
+use Inertia\Inertia;
 
 class LoginController extends Controller
 {

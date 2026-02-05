@@ -1,0 +1,172 @@
+<!-- Vue Single Page -->
+<!-- Scripts -->
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue'
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { ref, computed, resolveDirective } from 'vue';
+import { route } from 'ziggy-js';
+
+
+const page = usePage();
+const user = page.props.auth.user
+const total_balance = page.props.total_balance;
+const total_by_type = page.props.total_by_type;
+const last_transactions = page.props.last_transactions;
+
+console.log(page.props)
+
+const _last_transactions = ref([...last_transactions])
+const _total_balance = ref(total_balance)
+const _total_by_type = ref(total_by_type)
+
+const SuccessMessage = computed(
+    () => page.props.flash.success
+)
+
+
+// Envio do delete para o controller Laravel
+const onDeleteTransaction = (id) => {
+    if(confirm("Deseja realmente excluir esta transação?")){
+        router.delete(route('transactions.destroy', id), {
+            preserveScroll: true,
+
+            // Força o Inertia a buscar o novo estado para atualizar a pagina apos a deleção de algum item e evitar que varios
+            // itens deletados de uma vez não deem PAGE EXPIRED
+            preserveState: false,
+            onSuccess: () => {
+                _last_transactions.value = _last_transactions.value.filter(
+                    t => t.id !== id
+                )
+            }
+        } )
+    }
+    else{
+        return
+    }
+}
+
+</script>
+
+<!-- Template -->
+<template>
+    <AppLayout>
+        <div v-if="SuccessMessage" class="fixed top-18 left-1/2 transform -translate-x-1/2 z-50">
+            <div class="alert alert-success shadow-lg flex items-center gap-2 w-96 fade-out">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>{{ SuccessMessage }}</span>
+            </div>
+        </div>
+        <div class="w-full max-w-7xl px-4 py-6 space-y-6">
+
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold">
+                        Bem-vindo, {{ user.name }} 
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Cards resumo -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                <div class="card bg-base-100 shadow">
+                    <div class="card-body">
+                        <p class="text-sm text-base-content/70">Saldo Atual</p>
+                        <h2 class="text-2xl font-bold text-success">
+                            R$ {{ _total_balance }}
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card bg-base-100 shadow">
+                    <div class="card-body">
+                        <p class="text-sm text-base-content/70">Receitas</p>
+                        <h2 class="text-2xl font-bold text-primary">
+                            R$ {{ _total_by_type['Receita']}}
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card bg-base-100 shadow">
+                    <div class="card-body">
+                        <p class="text-sm text-base-content/70">Despesas</p>
+                        <h2 class="text-2xl font-bold text-error">
+                            R$ {{ _total_by_type['Despesa'] }}
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção principal -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Últimas transações -->
+                <div class="lg:col-span-2 card bg-base-100 shadow">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            Últimas Transações
+                        </h2>
+
+                        <div class="overflow-x-auto">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Descrição</th>
+                                        <th>Categoria</th>
+                                        <th>Valor</th>
+                                        <th>Data</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <!-- Isso tudo pode ser convertido em componente Vue -->
+                                    <tr v-for="transaction in _last_transactions" :key="transaction.id">
+                                        <td>{{ transaction.description }}</td>
+                                        <td>{{ transaction.category }}</td>
+                                        <td>{{ transaction.price }}</td>
+                                        <td>{{ transaction.updated_at_formatted }}</td>
+                                        <td>
+                                            <Link class="btn" :href="route('transactions.edit', transaction.id)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-600">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                </svg>
+                                            </Link>
+                                        </td>
+                                        <td>
+                                            <!-- Ligação com o formulario no script -->
+                                            <button @click="onDeleteTransaction(transaction.id)" class="btn">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-red-500">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ações rápidas -->
+                    <div class="card bg-base-100 shadow flex flex-col lg:h-75">
+                        <div class="card-body space-y-4 flex-1">
+                            <h2 class="card-title">Ações Rápidas</h2>
+                            
+                            <Link :href="route('transactions.create')">Nova Transação</Link>
+                            
+                            <!-- <a class="btn btn-secondary btn-outline w-full" href="#"><del>Relatórios</del></a> -->
+                        </div>
+                    </div>
+
+            </div>
+
+        </div>
+    </AppLayout>
+
+</template>
+
+<!-- Styles -->

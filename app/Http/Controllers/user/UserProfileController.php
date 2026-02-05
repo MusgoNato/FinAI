@@ -5,9 +5,11 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\user\PasswordUpdateRequest;
 use App\Http\Requests\user\UserProfileRequest;
+use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class UserProfileController extends Controller
 {
@@ -18,7 +20,7 @@ class UserProfileController extends Controller
     {
         //
         $user = auth()->user();
-        return view('profile.show', ['user' => $user]);
+        return Inertia::render('Profile/Show',['user' => $user]);
     }
 
     /**
@@ -28,7 +30,7 @@ class UserProfileController extends Controller
     {
         //
         $user = auth()->user();
-        return view('profile.edit', ['user' => $user]);
+        return Inertia::render('Profile/Edit', ['user' => $user]);
     }
 
     /**
@@ -36,32 +38,34 @@ class UserProfileController extends Controller
      */
     public function update(UserProfileRequest $request)
     {
-
         $user = auth()->user();
 
-        // Se existe foto, atualiza a mesma
-        if($request->hasFile('profile_image'))
-        {
-            $image = $request->file('profile_image');
-            $name = time().'_'.$image->getClientOriginalName();
-            $path = $image->storeAs('profile_images', $name, 'public');
+        // Coleta as informações, exceto profile_image e transforma em um vetor
+        $data = collect($request->validated())
+        ->except('profile_image')
+        ->toArray();
 
-            // Deleta o que ja existia
-            if($user->profile_image)
+        if($request->hasFile('profile_image')) 
+        {
+
+            if($user->profile_image) 
             {
                 Storage::disk('public')->delete($user->profile_image);
             }
 
-            $user->profile_image = $path;
-            $user->save();
+            $data['profile_image'] = $request
+            ->file('profile_image')
+            ->store('profile_images', 'public');
         }
+
+        $user->update($data);
 
         return redirect()->route('profile.show')->with(['success' => 'Perfil atualizado com sucesso']);
     }
 
     public function password()
     {
-        return view('profile.password.edit');
+        return Inertia::render('Profile/Password/Edit', ['hasLocalPassword' => auth()->user()->has_local_password]);
     }
 
     public function update_password(PasswordUpdateRequest $request)
@@ -69,8 +73,8 @@ class UserProfileController extends Controller
         $validate = $request->validated();
 
         $user = auth()->user();
-
-        if($user->password)
+        
+        if($user->has_local_password)
         {
             // Senha atual incorreta
             if(!Hash::check($validate['current_password'], $user->password))
@@ -89,9 +93,10 @@ class UserProfileController extends Controller
             }
         }
         
-        // Atualiza a senha
+        // Atualiza a senha e marca o usuario pois agora o mesmo tem uma senha local
         $user->update([
             'password' => Hash::make($validate['password']),
+            'has_local_password' => true,
         ]);
 
         return back()->with(['success' => 'Senha atualizada com sucesso']);

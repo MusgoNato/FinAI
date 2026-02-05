@@ -10,13 +10,14 @@ use DB;
 use Hash;
 use HashContext;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ResetPasswordController extends Controller
 {
     //
     public function showResetForm(Request $request)
     {
-        return view('profile.password.reset', ['email' => $request->email, 'token' => $request->token]);   
+        return Inertia::render('Profile/Password/Reset', ['email' => $request->email, 'token' => $request->token]);   
     }
 
     public function reset(PasswordResetRequest $request)

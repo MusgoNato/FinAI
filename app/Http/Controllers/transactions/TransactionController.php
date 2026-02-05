@@ -5,6 +5,7 @@ namespace App\Http\Controllers\transactions;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\transactions\TransactionRequest;
 use App\Models\Transaction;
+use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
@@ -15,9 +16,11 @@ class TransactionController extends Controller
     {
         // TODO: Desenvolver a tabela dinamica para mostrar todas as transacoes realizadas pelo usuario
         // Obs: No momento estão estaticas as informações mas deve ser daquele jeito a serem apresentadas
-        $transactions = auth()->user()->transactions()->orderBy('created_at', 'desc')->paginate(2);
+        // $transactions = auth()->user()->transactions()->orderBy('created_at', 'desc')->paginate(2);
     
-        return view('transactions.index', ['transactions' => $transactions]);
+        // return view('transactions.index', ['transactions' => $transactions]);
+
+        return Inertia::render('Transactions/Index');
     }
 
     /**
@@ -26,7 +29,8 @@ class TransactionController extends Controller
     public function create()
     {
         //
-        return view('transactions.create');
+        // return view('transactions.create');
+        return Inertia::render('Transactions/Create');
     }
 
     /**
@@ -64,9 +68,7 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        // Como ja estou passando via parametro o model Transaction, nao eh necessario o FindOrFail para busca do formulario,
-        // o mesmo ja sera carregado pelo Laravel dessa forma, basta passar de forma direto o proprio Model para a view edit
-        return view('transactions.edit', ['transaction_info' => $transaction]);
+        return Inertia::render('Transactions/Edit', ['transaction_info' => $transaction]);
     }
 
     /**

@@ -7,11 +7,17 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+
+    // Criado virtualmente, colocando profile_image o Laravel tenta acessar a função correspondente a isso, como não existe no
+    // meu model ele da erro de função não conhecida. Somente lembrando que o Laravel vai executar essa logica somente se o model virar JSON
+    // em algum momento da aplicação
+    protected $appends = ['profile_image_url', 'created_at_formatted'];
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'email_verified_at',
         'password',
+        'has_local_password',
         'profile_image',
     ];
 
@@ -58,9 +65,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if($this->profile_image)
         {
-            return asset('storage/' . $this->profile_image);
+            return Storage::url($this->profile_image);
         }
 
         return asset('storage/profile_images/default-avatar.png');
+    }
+
+    public function getCreatedAtFormattedAttribute()
+    {
+        return $this->created_at->format('d/m/Y');
     }
 }

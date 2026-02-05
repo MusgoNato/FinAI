@@ -43,6 +43,7 @@ class GoogleLoginController extends Controller
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
                     'password' => null,
+                    'has_local_password' => false,
                     'email_verified_at' => now(),
                 ]);
             }

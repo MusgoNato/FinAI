@@ -19,7 +19,8 @@ class RegisterController extends Controller
             'name' => $validation['name'],
             'email' => $validation['email'],
             'email_verified_at' => null,
-            'password' => Hash::make($validation['password']), 
+            'password' => Hash::make($validation['password']),
+            'has_local_password' => true,
         ]);
 
         Auth::login($user);
