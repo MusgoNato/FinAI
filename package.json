@@ -18,6 +18,7 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.3.13",
+        "lodash": "^4.17.23",
         "vue": "^3.5.27",
         "ziggy-js": "^2.6.0"
     }

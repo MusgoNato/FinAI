@@ -20,6 +20,7 @@ class HomeController extends Controller
         ->toArray();
 
 
+
         // Caso não exista nenhuma receita ou despesa, valores 0 serão setados
         $total_by_type = [
             'Receita' => $total_by_type['Receita'] ?? 0,
@@ -29,14 +30,7 @@ class HomeController extends Controller
         // Saldo atual
         $total_balance = $total_by_type['Receita'] - $total_by_type['Despesa'];
 
-
         // TODO: Criar um helper do tipo money com regex para formatar corretamente o numero e devolver ele com as casas decimais corretas
-        $total_balance = number_format(
-            Transaction::sum('price'),
-            2,
-            '.',
-            ''
-        );
 
         return Inertia::render('Dashboard', ['last_transactions' => $lastest_transactions, 'total_by_type' => $total_by_type, 'total_balance' => $total_balance]); 
     }

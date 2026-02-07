@@ -3,7 +3,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link, router, usePage } from '@inertiajs/vue3';
-import { ref, computed, resolveDirective } from 'vue';
+import { ref, computed } from 'vue';
 import { route } from 'ziggy-js';
 
 
@@ -13,7 +13,6 @@ const total_balance = page.props.total_balance;
 const total_by_type = page.props.total_by_type;
 const last_transactions = page.props.last_transactions;
 
-console.log(page.props)
 
 const _last_transactions = ref([...last_transactions])
 const _total_balance = ref(total_balance)
@@ -122,9 +121,9 @@ const onDeleteTransaction = (id) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <!-- Isso tudo pode ser convertido em componente Vue -->
                                     <tr v-for="transaction in _last_transactions" :key="transaction.id">
+                                        
                                         <td>{{ transaction.description }}</td>
                                         <td>{{ transaction.category }}</td>
                                         <td>{{ transaction.price }}</td>
@@ -148,7 +147,9 @@ const onDeleteTransaction = (id) => {
                                 </tbody>
                             </table>
                         </div>
+                        <div v-if="_last_transactions.length === 0" class="alert justify-center">Não há nenhuma transação registrada</div>
                     </div>
+                    
                 </div>
 
                 <!-- Ações rápidas -->
@@ -156,12 +157,9 @@ const onDeleteTransaction = (id) => {
                         <div class="card-body space-y-4 flex-1">
                             <h2 class="card-title">Ações Rápidas</h2>
                             
-                            <Link :href="route('transactions.create')">Nova Transação</Link>
-                            
-                            <!-- <a class="btn btn-secondary btn-outline w-full" href="#"><del>Relatórios</del></a> -->
+                            <Link :href="route('transactions.create')" class="btn btn-error">Nova Transação</Link>
                         </div>
                     </div>
-
             </div>
 
         </div>

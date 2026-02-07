@@ -5,6 +5,7 @@ namespace App\Http\Controllers\transactions;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\transactions\TransactionRequest;
 use App\Models\Transaction;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
@@ -12,15 +13,12 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // TODO: Desenvolver a tabela dinamica para mostrar todas as transacoes realizadas pelo usuario
-        // Obs: No momento estão estaticas as informações mas deve ser daquele jeito a serem apresentadas
-        // $transactions = auth()->user()->transactions()->orderBy('created_at', 'desc')->paginate(2);
-    
-        // return view('transactions.index', ['transactions' => $transactions]);
-
-        return Inertia::render('Transactions/Index');
+        $transactions = auth()->user()->transactions()
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+        return Inertia::render('Transactions/Index', ['transactions' => $transactions, 'filters' => $request->only('search')]);
     }
 
     /**
