@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Transaction extends Model
 {
+    // Este model e suas info se tornarao visiveis para que a engine de busca possa realizar a busca
+    use Searchable;
     protected $fillable = [
         'description',
         'category',
@@ -43,5 +46,20 @@ class Transaction extends Model
     public function getDateFormattedAttribute()
     {
        return $this->asDateTime($this->date)?->format('Y-m-d');
+    }
+
+    // Função da trait Searchable
+    public function toSearchableArray()
+    {
+        // Este vetor eh o que a engine ira buscar. Apos definir as propriedades que serao buscadas dentro do model, deve se 
+        // indexar via comando artisan o model com scout:import
+        return [
+            'id' => $this->id,
+            'description' => $this->description,
+            'category' => $this->category,
+            'type' => $this->type,
+            'price' => $this->price,
+            'notes' => $this->notes,
+        ];
     }
 }

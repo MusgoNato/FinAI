@@ -1,29 +1,91 @@
 
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import CategoryFilter from '@/Components/CategoryFilter.vue';
+import TypeFilter from '@/Components/TypeFilter.vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { route } from 'ziggy-js';
 import Pagination from '@/Components/Pagination.vue';
+import { debounce, filter } from 'lodash';
+import DataFilter from '@/Components/DataFilter.vue';
 
 const page = usePage();
+
+// Define os tipos das variaveis que virao
+const props = defineProps({
+    transactions: Object,
+    filters: Object,
+    category: Object,
+});
+
+const SuccessMessage = computed(
+    () => page.props.flash.success
+);
+
+
 
 const paginator = computed(() => page.props.transactions);
 const transactions = computed(() => paginator.value.data);
 
+// Para deletes de transações
 const onDeleteTransaction = (id) => {
-    router.delete(route('transactions.destroy', id), {
-        preserveScroll: true,
-        preserveState: false,
-    });
+    if(confirm("Deseja realmente excluir esta transação?"))
+    {
+        router.delete(route('transactions.destroy', id), {
+            preserveScroll: true,
+            preserveState: false,
+        });
+    }else{
+        return;
+    }
+    
 }
 
-// TODO: DESENVOLVER PAGINAÇÃO (APOS ISSO FAZER A INTEGRAÇÃO COM O LARAVEL SCOUT + MELISEARCH)
+// Filtros (busca, tipos, categorias, datas, etc)
+const filters = ref({
+    search: page.props.filters?.search ?? '',
+    type: page.props.filters?.type ?? '',
+    category: page.props.filters?.category ?? '',
+    start_date: page.props.filters?.start_Date ?? '',
+    end_date: page.props.filters?.end_date ?? '',    
+});
+
+
+
+// Aplica os filtros fazendo a requisição a pagina index das transações
+const applyFilters = debounce(() => {
+    router.get(
+        route('transactions.index'),
+        filters.value,
+        {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+        }
+    )
+}, 400);
+
+watch(
+    filters, 
+    () => {
+        applyFilters()
+    },
+    {deep: true}
+);
 
 </script>
 
 <template>
     <AppLayout>
+        <div v-if="SuccessMessage" class="fixed top-18 left-1/2 transform -translate-x-1/2 z-50">
+            <div class="alert alert-success shadow-lg flex items-center gap-2 w-96 fade-out">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>{{ SuccessMessage }}</span>
+            </div>
+        </div>
         <div class="w-full max-w-7xl px-4 py-6">
             <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -49,24 +111,26 @@ const onDeleteTransaction = (id) => {
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
                 <!-- Categoria e tipo -->
-                <div class="flex gap-2 flex-wrap">
-                    <select class="select select-bordered select-sm">
-                        <option disabled selected>Filtrar por categoria</option>
-                        <option>Alimentação</option>
-                        <option>Renda</option>
-                        <option>Transporte</option>
-                        <option>Lazer</option>
-                    </select>
+                <div class="flex gap-2 flex-wrap py-4">
+                    <CategoryFilter v-model="filters.category"></CategoryFilter>
+                    <TypeFilter v-model="filters.type"></TypeFilter>
 
-                    <select class="select select-bordered select-sm">
-                        <option disabled selected>Filtrar por tipo</option>
-                        <option>Despesa</option>
-                    </select>
+
+                    <button class="btn btn-sm btn-outline btn-primary gap-1"
+                    @click="clearFilters">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L15 12.414V19a1 1 0 01-.447.832l-4 2.667A1 1 0 019 21v-8.586L3.293 6.707A1 1 0 013 6V4z" />
+                        </svg>
+                        Limpar Filtro
+                    </button>
                 </div>
 
                 <!-- Campo de busca -->
                 <div class="flex-1 sm:max-w-xs">
                     <input
+                        v-model="filters.search"
                         type="text"
                         placeholder="Buscar descrição..."
                         class="input input-bordered input-sm w-full"
@@ -74,10 +138,11 @@ const onDeleteTransaction = (id) => {
                 </div>
 
                 <!-- Datas -->
-                <div class="flex gap-2 flex-wrap">
-                    <input type="date" class="input input-bordered input-sm">
-                    <input type="date" class="input input-bordered input-sm">
-                </div>
+                <DataFilter 
+                    v-model:start_date="filters.start_date"
+                    v-model:end_date="filters.end_date"
+                />
+
             </div>
 
             <!-- Tabela de transações -->

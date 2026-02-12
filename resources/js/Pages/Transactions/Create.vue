@@ -5,9 +5,9 @@ import { route } from 'ziggy-js';
 import Category from '@/Components/Category.vue';
 import Type from '@/Components/Type.vue';
 
-const page = usePage()
+const page = usePage();
 
-const errors = page.props.errors
+const errors = page.props.errors;
 
 const form = useForm({
     description: '',
@@ -16,11 +16,11 @@ const form = useForm({
     price: '',
     date: '',
     notes: '',
-})
+});
 
 const onCreateNewTransaction = () => {
     form.post(route('transactions.store'))
-}
+};
 
 </script>
 
@@ -102,7 +102,7 @@ const onCreateNewTransaction = () => {
                                 max="9999999"
                                 required
                             >
-                            <span class="alert-error text-error">{{ errors.message }}</span>
+                            <span class="alert-error text-error">{{ errors.price }}</span>
                         </div>
 
                         <!-- Data -->

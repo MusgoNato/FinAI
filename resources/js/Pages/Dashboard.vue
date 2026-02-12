@@ -14,13 +14,13 @@ const total_by_type = page.props.total_by_type;
 const last_transactions = page.props.last_transactions;
 
 
-const _last_transactions = ref([...last_transactions])
-const _total_balance = ref(total_balance)
-const _total_by_type = ref(total_by_type)
+const _last_transactions = ref([...last_transactions]);
+const _total_balance = ref(total_balance);
+const _total_by_type = ref(total_by_type);
 
 const SuccessMessage = computed(
     () => page.props.flash.success
-)
+);
 
 
 // Envio do delete para o controller Laravel

@@ -15,10 +15,33 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
+        // FILTRAGEM (Busca)
         $transactions = auth()->user()->transactions()
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
-        return Inertia::render('Transactions/Index', ['transactions' => $transactions, 'filters' => $request->only('search')]);
+        ->when($request->search, fn ($query, $search) =>
+            $query->where('description', 'like', "%{$search}%")
+        )
+
+        // Tipo da transação
+        ->when($request->type, fn ($query, $type) =>
+            $query->where('type', $type)
+        )
+        // Tipo da categoria
+        ->when($request->category, fn ($query, $category) =>
+            $query->where('category', $category)
+        )
+        // Datas
+        ->when($request->start_date, fn($query, $start_date) => 
+            $query->whereDate('date','>=', $start_date)
+        )
+        ->when($request->end_date, fn($query, $end_date) => 
+            $query->whereDate('date','<=', $end_date)
+        )
+        ->orderByDesc('created_at')
+        ->paginate(2)
+        ->withQueryString();
+    
+
+        return Inertia::render('Transactions/Index', ['transactions' => $transactions, 'filters' => $request->only(['search', 'type', 'start_date', 'end_date'])]);
     }
 
     /**

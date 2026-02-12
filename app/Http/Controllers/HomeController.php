@@ -28,9 +28,8 @@ class HomeController extends Controller
         ];
 
         // Saldo atual
-        $total_balance = $total_by_type['Receita'] - $total_by_type['Despesa'];
+        $total_balance = round($total_by_type['Receita'] - $total_by_type['Despesa'], 2);
 
-        // TODO: Criar um helper do tipo money com regex para formatar corretamente o numero e devolver ele com as casas decimais corretas
 
         return Inertia::render('Dashboard', ['last_transactions' => $lastest_transactions, 'total_by_type' => $total_by_type, 'total_balance' => $total_balance]); 
     }
