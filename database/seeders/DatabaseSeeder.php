@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Transaction;
 use App\Models\User;
+use Database\Factories\TransactionFactory;
+use Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,9 +20,16 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $user = User::factory()->create([
+            'name' => 'Teste',
+            'email' => 'teste@gmail.com',
+            'password' => Hash::make('123456789'),
+            'email_verified_at' => now(),
         ]);
-    }
+
+        Transaction::factory()
+            ->count(10)
+            ->for($user)
+            ->create();
+        }
 }
