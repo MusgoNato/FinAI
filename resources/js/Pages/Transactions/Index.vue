@@ -52,6 +52,21 @@ const filters = ref({
 });
 
 
+const clearFilters = () => {
+    filters.value =  {
+        search: '',
+        type: '',
+        category: '',
+        start_date: '',
+        end_date: '',
+    }
+    router.get('transactions.index', {}, {
+        preserveScroll: true,
+        preserveState: true,
+        replace: true,
+    })
+}
+
 
 // Aplica os filtros fazendo a requisição a pagina index das transações
 const applyFilters = debounce(() => {

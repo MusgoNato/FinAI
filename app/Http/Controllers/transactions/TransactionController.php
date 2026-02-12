@@ -37,7 +37,7 @@ class TransactionController extends Controller
             $query->whereDate('date','<=', $end_date)
         )
         ->orderByDesc('created_at')
-        ->paginate(2)
+        ->paginate(10)
         ->withQueryString();
     
 

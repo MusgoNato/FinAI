@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 
 class Transaction extends Model
 {
     // Este model e suas info se tornarao visiveis para que a engine de busca possa realizar a busca
-    use Searchable;
+    use Searchable, HasFactory;
     protected $fillable = [
         'description',
         'category',
