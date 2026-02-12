@@ -5,19 +5,43 @@ namespace App\Http\Controllers\transactions;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\transactions\TransactionRequest;
 use App\Models\Transaction;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // TODO: Desenvolver a tabela dinamica para mostrar todas as transacoes realizadas pelo usuario
-        // Obs: No momento estão estaticas as informações mas deve ser daquele jeito a serem apresentadas
-        $transactions = auth()->user()->transactions()->orderBy('created_at', 'desc')->paginate(2);
+        // FILTRAGEM (Busca)
+        $transactions = auth()->user()->transactions()
+        ->when($request->search, fn ($query, $search) =>
+            $query->where('description', 'like', "%{$search}%")
+        )
+
+        // Tipo da transação
+        ->when($request->type, fn ($query, $type) =>
+            $query->where('type', $type)
+        )
+        // Tipo da categoria
+        ->when($request->category, fn ($query, $category) =>
+            $query->where('category', $category)
+        )
+        // Datas
+        ->when($request->start_date, fn($query, $start_date) => 
+            $query->whereDate('date','>=', $start_date)
+        )
+        ->when($request->end_date, fn($query, $end_date) => 
+            $query->whereDate('date','<=', $end_date)
+        )
+        ->orderByDesc('created_at')
+        ->paginate(2)
+        ->withQueryString();
     
-        return view('transactions.index', ['transactions' => $transactions]);
+
+        return Inertia::render('Transactions/Index', ['transactions' => $transactions, 'filters' => $request->only(['search', 'type', 'start_date', 'end_date'])]);
     }
 
     /**
@@ -26,7 +50,8 @@ class TransactionController extends Controller
     public function create()
     {
         //
-        return view('transactions.create');
+        // return view('transactions.create');
+        return Inertia::render('Transactions/Create');
     }
 
     /**
@@ -64,9 +89,7 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        // Como ja estou passando via parametro o model Transaction, nao eh necessario o FindOrFail para busca do formulario,
-        // o mesmo ja sera carregado pelo Laravel dessa forma, basta passar de forma direto o proprio Model para a view edit
-        return view('transactions.edit', ['transaction_info' => $transaction]);
+        return Inertia::render('Transactions/Edit', ['transaction_info' => $transaction]);
     }
 
     /**

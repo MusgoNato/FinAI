@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Inertia\Inertia;
 use Mail;
 use PharIo\Manifest\Url;
 use Str;
@@ -19,7 +20,7 @@ class ForgotPasswordController extends Controller
     //
     public function showLinkRequestForm()
     {
-        return view('profile.password.request');
+        return Inertia::render('Profile/Password/Request');
     }
 
     public function sendResetLinkEmail(SendResetLinkEmailRequest $request)

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('description');
             $table->enum('category', ['Alimentacao', 'Renda', 'Transporte', 'Lazer', 'Outros']);
-            $table->decimal('price', 15, 2);
+            $table->decimal('price', 10, 2);
             $table->date('date');
             $table->text('notes')->nullable();
             $table->timestamps();

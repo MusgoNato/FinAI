@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
+use Inertia\Inertia;
+
 class HomeController extends Controller
 {
     //
@@ -17,6 +20,7 @@ class HomeController extends Controller
         ->toArray();
 
 
+
         // Caso não exista nenhuma receita ou despesa, valores 0 serão setados
         $total_by_type = [
             'Receita' => $total_by_type['Receita'] ?? 0,
@@ -24,8 +28,9 @@ class HomeController extends Controller
         ];
 
         // Saldo atual
-        $total_balance = $total_by_type['Receita'] - $total_by_type['Despesa']; 
-        
-        return view('dashboard', ['last_transactions' => $lastest_transactions, 'total_by_type' => $total_by_type, 'total_balance' => $total_balance]);
+        $total_balance = round($total_by_type['Receita'] - $total_by_type['Despesa'], 2);
+
+
+        return Inertia::render('Dashboard', ['last_transactions' => $lastest_transactions, 'total_by_type' => $total_by_type, 'total_balance' => $total_balance]); 
     }
 }   

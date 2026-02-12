@@ -11,16 +11,21 @@ use App\Http\Controllers\user\ForgotPasswordController;
 use App\Http\Controllers\user\ResetPasswordController;
 use App\Http\Controllers\user\UserProfileController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 // Usuarios nao autenticados
 Route::middleware(['guest'])->group(function (){
 
     // Login da aplicação
-    Route::view('/', 'auth.login');
+    Route::get('/', function (){
+        return Inertia::render('Auth/Login');
+    })->name('login');
 
     Route::post('/', LoginController::class)->name('login');
 
-    Route::view('/register', 'auth.register')->name('register');
+    Route::get('/register', function (){
+        return Inertia::render('Auth/Register');
+    })->name('register');
     Route::post('/register', RegisterController::class);
 
 

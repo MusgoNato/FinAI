@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Transaction extends Model
 {
+    // Este model e suas info se tornarao visiveis para que a engine de busca possa realizar a busca
+    use Searchable;
     protected $fillable = [
         'description',
         'category',
@@ -14,6 +17,10 @@ class Transaction extends Model
         'date',
         'notes',
     ];
+
+    // QUando o Model User for ser serializado ou convertido em JSON
+    // ele adicionará de forma virtual este campo ao JSON e executará o acessor. 
+    protected $appends = ['updated_at_formatted', 'date_formatted'];
 
 
     // Sem isto o Larvel pode tratar o valor como float, contendo imprecisão binária
@@ -27,5 +34,32 @@ class Transaction extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Acessores (Realizam a formatação do atributo automaticamente e disponibilizam seu valor)
+    public function getUpdatedAtFormattedAttribute()
+    {
+        // Isto nao vai ser populado dentro de um input tipo date, entao nao existe problema em manter desta forma
+        return $this->updated_at?->format('d-m-Y');
+    }
+
+    public function getDateFormattedAttribute()
+    {
+       return $this->asDateTime($this->date)?->format('Y-m-d');
+    }
+
+    // Função da trait Searchable
+    public function toSearchableArray()
+    {
+        // Este vetor eh o que a engine ira buscar. Apos definir as propriedades que serao buscadas dentro do model, deve se 
+        // indexar via comando artisan o model com scout:import
+        return [
+            'id' => $this->id,
+            'description' => $this->description,
+            'category' => $this->category,
+            'type' => $this->type,
+            'price' => $this->price,
+            'notes' => $this->notes,
+        ];
     }
 }

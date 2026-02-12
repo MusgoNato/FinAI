@@ -8,6 +8,7 @@ use App\Mail\ValidationMailMessage;
 use App\Models\User;
 use Cache;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Mail;
 
 class MailVerificationController extends Controller
@@ -15,12 +16,12 @@ class MailVerificationController extends Controller
     //
     public function notice()
     {
-        return view('mail.notice');
+        return Inertia::render('Mail/Notice');
     }
 
     public function form()
     {
-        return view('mail.form');
+        return Inertia::render('Mail/Form');
     }
 
     public function verify(CodeValidateRequest $request)
@@ -48,10 +49,8 @@ class MailVerificationController extends Controller
             ]);
         }
 
-        // Salva o email verificado agora
-        $user->forceFill([
-            'email_verified_at' => now(),
-        ])->save();
+        // Marca email como verificado
+        $user->markEmailAsVerified();
 
         // Limpa código em cache
         Cache::forget($cacheKey);
@@ -69,6 +68,6 @@ class MailVerificationController extends Controller
         );
         Mail::to(auth()->user()->email)->send(new ValidationMailMessage($code));
 
-        return redirect()->route('verification.form')->with('success', 'Código enviado para seu e-mail!');
+        return redirect()->route('verification.form')->with(['success' => 'Código enviado para seu email']);
     }
 }

@@ -29,7 +29,6 @@
     </head>        
 
     <body class="min-h-screen bg-base-200">
-
         @auth
             <x-nav.navbar />
         @endauth
