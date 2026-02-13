@@ -27,12 +27,8 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        User::factory(100)
-            ->hasTransactions(1000)
-            ->create();
-
         Transaction::factory()
-            ->count(1000)
+            ->count(100)
             ->for($user)
             ->create();
         }
