@@ -6,6 +6,13 @@ O objetivo do projeto é ir além de um simples CRUD de receitas e despesas, ofe
 
 ---
 
+## Login
+![Login](screenshots/login.png)
+## Dashboard
+![Dashboard](screenshots/dashboard.png)
+## Transações
+![Transações](screenshots/transactions.png)
+
 ## 🚀 Tecnologias Utilizadas
 
 ### Backend
@@ -39,11 +46,14 @@ O objetivo do projeto é ir além de um simples CRUD de receitas e despesas, ofe
 - Login via Google OAuth
 - Login tradicional com e-mail e senha
 
-### 🤖 Inteligência Artificial (FinAI) *Em desenvolvimento*
+### 🤖 Inteligência Artificial *Em desenvolvimento*
 - 📌 Resumo financeiro automático mensal
 - 📌 Análise de padrões de gastos
 - 📌 Identificação de maior categoria de despesa
 - 📌 Alertas simples de comportamento financeiro
+
+### 📃 Relatórios *Em desenvolvimento*
+- 📌 Geração de relatórios em PDF e Excel
 
 **Exemplo de insight:**
 > "Seu maior gasto este mês foi em Alimentação. Seus gastos aumentaram 18% em relação ao mês passado."
