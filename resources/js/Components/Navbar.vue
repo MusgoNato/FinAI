@@ -6,7 +6,8 @@ const user = page.props.auth.user
 </script>
 
 <template>
-  <nav class="navbar bg-base-100 border-b border-base-200 px-6">
+  <nav class="navbar bg-base-100 border-b border-base-200 px-4 md:px-6">
+
     <!-- Logo -->
     <div class="flex-1">
       <Link
@@ -17,23 +18,31 @@ const user = page.props.auth.user
       </Link>
     </div>
 
-    <!-- Menu desktop -->
-    <div class="hidden md:flex items-center gap-1">
-      <Link href="/dashboard" class="btn btn-ghost btn-sm">
+    <!-- Menu (agora aparece em todas as telas) -->
+    <div class="flex items-center gap-1">
+
+      <Link 
+        href="/dashboard" 
+        class="btn btn-ghost btn-sm"
+      >
         Dashboard
       </Link>
 
-      <Link href="/transactions" class="btn btn-ghost btn-sm">
+      <Link 
+        href="/transactions" 
+        class="btn btn-ghost btn-sm"
+      >
         Transações
       </Link>
 
       <span class="btn btn-ghost btn-sm cursor-not-allowed">
         <del>Relatórios</del>
       </span>
+
     </div>
 
     <!-- Usuário -->
-    <div class="flex-none ml-4">
+    <div class="flex-none ml-2 md:ml-4">
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost btn-sm btn-circle avatar">
           <div class="w-9 rounded-full">
@@ -43,7 +52,7 @@ const user = page.props.auth.user
 
         <ul
           tabindex="0"
-          class="dropdown-content z-10 mt-3 w-48 rounded-box bg-base-100 shadow-md border border-base-200"
+          class="dropdown-content z-10 mt-3 w-48 rounded-box bg-base-100 shadow-lg border border-base-200"
         >
           <li class="px-4 py-2 text-sm font-medium">
             {{ user.name }}
@@ -61,7 +70,7 @@ const user = page.props.auth.user
           </li>
 
           <li>
-            <span class="block px-4 py-2 text-sm text-gray-400">
+            <span class="block px-4 py-2 text-sm text-base-content/50">
               <del>Configurações</del>
             </span>
           </li>
@@ -73,7 +82,7 @@ const user = page.props.auth.user
               href="/logout"
               method="post"
               as="button"
-              class="btn btn-error w-full justify-start px-4 py-2 text-sm"
+              class="btn btn-error w-full justify-start text-sm"
             >
               Sair
             </Link>
@@ -81,5 +90,6 @@ const user = page.props.auth.user
         </ul>
       </div>
     </div>
+
   </nav>
 </template>

@@ -1,57 +1,80 @@
 <template>
-  <div class="min-h-screen bg-base-200 flex flex-col items-center">
+  <div class="min-h-screen bg-[#F3F4F6] flex items-center justify-center p-4">
 
-    <main class="flex flex-1 items-center justify-center w-full px-4 mt-10">
-      <div class="card w-full max-w-md bg-base-100 shadow-xl">
-        <div class="card-body text-center space-y-4">
+    <div class="w-full max-w-md">
 
-          <h2 class="card-title justify-center">Verificação de E-mail 📧</h2>
+      <div class="card bg-white shadow-2xl rounded-3xl">
+        <div class="card-body text-center p-10 space-y-6">
 
-          <p class="text-base-content/70">
-            Enviaremos um código de verificação para o e-mail:
-          </p>
+          <!-- Ícone -->
+          <div class="flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M16 12H8m8 0a4 4 0 01-8 0m8 0V8a4 4 0 10-8 0v4" />
+              </svg>
+            </div>
+          </div>
 
-          <p class="font-semibold">{{ page.props.auth.user?.email }}</p>
+          <!-- Título -->
+          <div>
+            <h2 class="text-2xl font-bold text-base-content">
+              Verificação de E-mail
+            </h2>
+            <p class="text-base-content/60 mt-2 text-sm">
+              Para continuar, confirme seu endereço de e-mail.
+            </p>
+          </div>
 
-          <button @click="sendCode" class="btn btn-primary w-full">
-            Enviar código
+          <!-- Email -->
+          <div class="bg-base-200 rounded-2xl py-3 px-4 text-sm">
+            <p class="text-base-content/60">Código será enviado para:</p>
+            <p class="font-semibold text-base-content break-all">
+              {{ page.props.auth.user?.email }}
+            </p>
+          </div>
+
+          <!-- Botão -->
+          <button
+            @click="sendCode"
+            class="btn btn-primary w-full h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-transform"
+            :class="{ 'loading': form.processing }"
+            :disabled="form.processing"
+          >
+            Enviar código de verificação
           </button>
 
-          <!-- Mensagem de sucesso -->
-          <!-- <div v-if="successMessage" class="alert alert-success mt-4">
-            <span>{{ successMessage }}</span>
-          </div>-->
+          <!-- Status -->
+          <div v-if="page.props.flash?.status" class="alert alert-success rounded-2xl text-sm">
+            <span>{{ page.props.flash.status }}</span>
+          </div>
 
-          <!-- Mensagem de erro -->
-          <!-- <div v-if="errorMessage" class="alert alert-error mt-4">
-            <span>{{ errorMessage }}</span>
-          </div> -->
+          <p class="text-xs text-base-content/40">
+            Verifique também sua caixa de spam.
+          </p>
 
         </div>
       </div>
-    </main>
+
+    </div>
 
   </div>
 </template>
 
-
 <script setup>
-import { ref } from 'vue'
 import { route } from 'ziggy-js'
 import { useForm, usePage } from '@inertiajs/vue3'
 
-// Pega os props do Inertia (auth.user, flash messages, etc.)
 const page = usePage()
-
-// Formulário de envio de código
 const form = useForm({})
 
-// Success/Errors podem vir do backend via session ou validation errors
-// const successMessage = ref(page.props.flash.success || '')
-// const errorMessage = ref(page.props.errors?.default || '')
-
-// Função de envio
 function sendCode() {
-    form.post(route('verification.send'))
+  form.post(route('verification.send'))
 }
 </script>
+
+<style scoped>
+.btn {
+  border-radius: 1rem;
+}
+</style>

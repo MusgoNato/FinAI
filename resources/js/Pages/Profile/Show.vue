@@ -26,66 +26,121 @@ const handleDelete = () => {
 
 
 <template>
-    <AppLayout>
-        
-        <div v-if="SuccessMessage" class="fixed top-18 left-1/2 transform -translate-x-1/2 z-50">
-            <div class="alert alert-success shadow-lg flex items-center gap-2 w-96 fade-out">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current h-6 w-6" fill="none" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                <span>{{ SuccessMessage }}</span>
-            </div>
+  <AppLayout>
+
+    <!-- Toast Sucesso -->
+    <div v-if="SuccessMessage"
+         class="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
+      <div class="alert alert-success shadow-xl w-96 rounded-2xl">
+        <span>{{ SuccessMessage }}</span>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
+
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-bold">Meu Perfil</h1>
+          <p class="text-base-content/60 text-sm mt-1">
+            Gerencie suas informações e configurações da conta
+          </p>
         </div>
 
-        <div class="w-full max-w-7xl px-4 py-6 space-y-6">
+        <Link
+          :href="route('profile.edit')"
+          class="btn btn-primary rounded-xl shadow-md"
+        >
+          Editar Perfil
+        </Link>
+      </div>
 
-            <!-- Header -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                <h1 class="text-3xl font-bold">Meu Perfil</h1>
-                <Link :href="route('profile.edit')" class="btn btn-primary">Editar Perfil</Link>
+      <!-- Layout principal -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- Card Perfil -->
+        <div class="card bg-base-100 shadow-xl rounded-3xl p-8 text-center">
+
+          <div class="flex justify-center">
+            <div class="avatar">
+              <div class="w-28 rounded-full ring ring-primary ring-offset-base-100 ring-offset-4 shadow-md">
+                <img :src="user.profile_image_url" alt="Profile Image">
+              </div>
+            </div>
+          </div>
+
+          <h2 class="text-2xl font-bold mt-6">{{ user.name }}</h2>
+          <p class="text-base-content/60 break-all">{{ user.email }}</p>
+
+          <div class="divider my-6"></div>
+
+          <div class="space-y-4 text-sm">
+
+            <div class="flex justify-between">
+              <span class="text-base-content/60">Usuário desde</span>
+              <span class="font-medium">
+                {{ user.created_at_formatted }}
+              </span>
             </div>
 
-            <!-- Grid principal -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-                <!-- Card de Informações -->
-                <div class="card bg-base-100 shadow flex flex-col items-center p-6">
-                    <div class="avatar mb-4">
-                        <div class="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                            <img :src="user.profile_image_url" alt="Profile Image" width="150">
-                        </div>
-                    </div>
-
-                    <h2 class="text-xl font-bold">{{ user.name }}</h2>
-                    <p class="text-sm text-base-content/70">{{ user.email }}</p>
-
-                    <div class="mt-4 w-full space-y-4">
-                        <div class="flex justify-between">
-                            <span class="font-medium">Usuário desde:</span>
-                            <span class="font-normal">{{ user.created_at_formatted }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="font-medium">Último login:</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card de Ações -->
-                <div class="lg:col-span-2 card bg-base-100 shadow flex flex-col p-6 gap-4">
-                    <h2 class="text-xl font-bold mb-4">Ações</h2>
-
-                    <Link :href="route('profile.edit')" class="btn btn-primary w-full">Editar Informações</Link>
-                    
-                    <Link :href="route('profile.password')" class="btn btn-secondary w-full">Alterar Senha</Link>
-
-                    <button 
-                    type="submit"
-                    @click="handleDelete"
-                    :disabled="form.processing"
-                    class="btn btn-error w-full"
-                    >{{ form.processing ? 'Excluindo...' : 'Excluir Conta' }}</button>
-                </div>
+            <div class="flex justify-between">
+              <span class="text-base-content/60">Status da conta</span>
+              <span class="badge badge-success badge-outline">
+                Ativa
+              </span>
             </div>
+
+          </div>
+
         </div>
-    </AppLayout>
+
+        <!-- Card Ações -->
+        <div class="lg:col-span-2">
+
+          <div class="card bg-base-100 shadow-xl rounded-3xl p-8 space-y-6">
+
+            <div>
+              <h2 class="text-xl font-bold">Configurações da Conta</h2>
+              <p class="text-base-content/60 text-sm">
+                Atualize suas informações ou gerencie segurança
+              </p>
+            </div>
+
+            <div class="space-y-4">
+
+              <Link
+                :href="route('profile.edit')"
+                class="btn btn-primary w-full h-14 rounded-xl text-base font-semibold"
+              >
+                Editar Informações
+              </Link>
+
+              <Link
+                :href="route('profile.password')"
+                class="btn btn-outline btn-secondary w-full h-14 rounded-xl text-base font-semibold"
+              >
+                Alterar Senha
+              </Link>
+
+              <div class="divider"></div>
+
+              <button
+                @click="handleDelete"
+                :disabled="form.processing"
+                class="btn btn-error btn-outline w-full h-14 rounded-xl font-semibold"
+              >
+                {{ form.processing ? 'Excluindo conta...' : 'Excluir Conta' }}
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </AppLayout>
 </template>
+
