@@ -2,18 +2,23 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { route } from 'ziggy-js'
+import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 
 const page = usePage()
 const user = page.props.auth.user
 const total_balance = page.props.total_balance
 const total_by_type = page.props.total_by_type
 const last_transactions = page.props.last_transactions
+const ai_insight = page.props.ai_insight;
+
 
 const _last_transactions = ref([...last_transactions])
 const _total_balance = ref(total_balance)
 const _total_by_type = ref(total_by_type)
+const _ai_insight = ref(ai_insight);
 
 const successMessage = computed(() => page.props.flash?.success ?? '')
 
@@ -29,6 +34,15 @@ const onDeleteTransaction = (id) => {
     },
   })
 }
+
+
+const renderedInsight = computed(() => {
+  if (!_ai_insight.value) return ''
+
+  const rawHtml = marked.parse(_ai_insight.value)
+  return DOMPurify.sanitize(rawHtml)
+})
+
 </script>
 
 <template>
@@ -264,8 +278,40 @@ const onDeleteTransaction = (id) => {
               Nova Transação
             </Link>
 
-            <!-- Você pode adicionar mais botões úteis aqui no futuro -->
-            <!-- <button class="btn btn-outline btn-secondary w-full mt-4">Ver Relatórios</button> -->
+            <!-- Insight da IA -->
+            <div
+              class="card bg-base-100 shadow-2xl border border-primary/20 mt-6 lg:mt-8"
+            >
+              <div class="card-body p-6 lg:p-8 space-y-4">
+
+                <div class="flex items-center gap-3">
+                  <div class="p-2 rounded-xl bg-primary/10 text-primary">
+                    🤖
+                  </div>
+                  <h2 class="card-title text-xl">
+                    Insight Inteligente
+                  </h2>
+                </div>
+
+                <!-- INSIGHT -->
+                <div
+                  v-if="_ai_insight"
+                  class="prose prose-sm max-w-none text-base-content"
+                  v-html="renderedInsight"
+                  >
+                </div>
+
+                <!-- FALLBACK -->
+                <div
+                  v-else
+                  class="text-base-content/50 italic"
+                >
+                  Nenhum insight disponível no momento.
+                </div>
+
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
