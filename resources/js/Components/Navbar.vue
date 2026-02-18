@@ -1,5 +1,6 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
 
 const page = usePage()
 const user = page.props.auth.user
@@ -22,23 +23,25 @@ const user = page.props.auth.user
     <div class="flex items-center gap-1">
 
       <Link 
-        href="/dashboard" 
+        :href="route('dashboard')" 
         class="btn btn-ghost btn-sm"
       >
         Dashboard
       </Link>
 
       <Link 
-        href="/transactions" 
+        :href="route('transactions.index')" 
         class="btn btn-ghost btn-sm"
       >
         Transações
       </Link>
 
-      <span class="btn btn-ghost btn-sm cursor-not-allowed">
-        <del>Relatórios</del>
-      </span>
-
+      <Link
+        :href="route('reports')"
+        class="btn btn-ghost btn-sm"
+      >
+      Relatórios
+      </Link>
     </div>
 
     <!-- Usuário -->

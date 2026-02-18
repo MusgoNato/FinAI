@@ -6,6 +6,7 @@ use App\Http\Controllers\auth\LogOutController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\mail\MailVerificationController;
+use App\Http\Controllers\ReportDownloadController;
 use App\Http\Controllers\transactions\TransactionController;
 use App\Http\Controllers\user\ForgotPasswordController;
 use App\Http\Controllers\user\ResetPasswordController;
@@ -84,4 +85,8 @@ Route::middleware(['auth', 'verified'])->group(function (){
 
     Route::get('/profile/edit/password', [UserProfileController::class, 'password'])->name('profile.password');
     Route::put('/profile/edit/password', [UserProfileController::class, 'update_password'])->name('profile.update_password');
+
+    // Relatorios
+    Route::get('/reports', [ReportDownloadController::class, 'index'])->name('reports');
+    Route::get('/reports/download', [ReportDownloadController::class, 'download'])->name('reports.download');
 });
