@@ -76,6 +76,15 @@ watch(
     },
     {deep: true}
 );
+
+const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+});
+
+const formatCurrency = (value) =>
+  currencyFormatter.format(value ?? 0);
+  
 </script>
 
 <template>
@@ -194,7 +203,7 @@ watch(
                     : 'text-error font-semibold'"
                 >
                 {{ transaction.type === 'Receita' ? '+' : '-' }}
-                R$ {{ transaction.price }}
+                {{ formatCurrency(transaction.price) }}
                 </td>
 
                 <td class="text-base-content/60">
@@ -251,7 +260,7 @@ watch(
                 ]"
                 >
                 {{ transaction.type === 'Receita' ? '+' : '-' }}
-                R$ {{ transaction.price }}
+                {{ formatCurrency(transaction.price) }}
                 </div>
             </div>
 

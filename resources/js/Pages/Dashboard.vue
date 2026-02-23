@@ -13,14 +13,37 @@ const total_balance = page.props.total_balance
 const total_by_type = page.props.total_by_type
 const last_transactions = page.props.last_transactions
 const ai_insight = page.props.ai_insight;
+const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+});
 
-
-const _last_transactions = ref([...last_transactions])
-const _total_balance = ref(total_balance)
-const _total_by_type = ref(total_by_type)
+const _last_transactions = ref([...last_transactions]);
+const _total_balance = ref(total_balance);
+const _total_by_type = ref(total_by_type);
 const _ai_insight = ref(ai_insight);
+// Saldo total formatado
+const formattedBalance = computed(() => {
+  return currencyFormatter.format(_total_balance.value);
+});
 
-const successMessage = computed(() => page.props.flash?.success ?? '')
+const formattedTotalByTypes = computed(() => {
+  const result = {}
+
+  for (const key in _total_by_type.value) {
+    result[key] = currencyFormatter.format(
+      _total_by_type.value[key] ?? 0
+    )
+  }
+
+  return result
+});
+
+// Para formatações
+const formatCurrency = (value) =>
+  currencyFormatter.format(value ?? 0)
+
+const successMessage = computed(() => page.props.flash?.success ?? '');
 
 // Delete transaction
 const onDeleteTransaction = (id) => {
@@ -32,7 +55,7 @@ const onDeleteTransaction = (id) => {
     onSuccess: () => {
       _last_transactions.value = _last_transactions.value.filter(t => t.id !== id)
     },
-  })
+  });
 }
 
 
@@ -41,7 +64,7 @@ const renderedInsight = computed(() => {
 
   const rawHtml = marked.parse(_ai_insight.value)
   return DOMPurify.sanitize(rawHtml)
-})
+});
 
 </script>
 
@@ -85,7 +108,7 @@ const renderedInsight = computed(() => {
           <div class="stat place-items-center">
             <div class="stat-title text-base-content/70">Saldo Atual</div>
             <div class="stat-value text-3xl lg:text-4xl font-extrabold text-success">
-              R$ {{ _total_balance }}
+              {{ formattedBalance }}
             </div>
           </div>
         </div>
@@ -94,7 +117,7 @@ const renderedInsight = computed(() => {
           <div class="stat place-items-center">
             <div class="stat-title text-base-content/70">Receitas</div>
             <div class="stat-value text-3xl lg:text-4xl font-extrabold text-primary">
-              R$ {{ _total_by_type?.Receita || '0,00' }}
+              {{ formattedTotalByTypes?.Receita || 'R$ 0,00' }}
             </div>
           </div>
         </div>
@@ -103,7 +126,7 @@ const renderedInsight = computed(() => {
           <div class="stat place-items-center">
             <div class="stat-title text-base-content/70">Despesas</div>
             <div class="stat-value text-3xl lg:text-4xl font-extrabold text-error">
-              R$ {{ _total_by_type?.Despesa || '0,00' }}
+              {{ formattedTotalByTypes?.Despesa || 'R$ 0,00' }}
             </div>
           </div>
         </div>
@@ -163,7 +186,7 @@ const renderedInsight = computed(() => {
                         'text-error font-semibold': t.type === 'Despesa',
                     }"
                     >
-                    R$ {{ t.price }}
+                    {{ formatCurrency(t.price) }}
                     </td>
                     <td class="text-base-content/70">
                     {{ t.updated_at_formatted }}
@@ -210,7 +233,7 @@ const renderedInsight = computed(() => {
                         t.type === 'Receita' ? 'text-success' : 'text-error'
                     ]"
                     >
-                    R$ {{ t.price }}
+                    {{ formatCurrency(t.price) }}
                     </div>
                 </div>
 

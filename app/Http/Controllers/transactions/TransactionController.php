@@ -50,7 +50,6 @@ class TransactionController extends Controller
     public function create()
     {
         //
-        // return view('transactions.create');
         return Inertia::render('Transactions/Create');
     }
 
