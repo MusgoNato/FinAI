@@ -1,6 +1,5 @@
 <script setup>
 import { useForm, usePage } from '@inertiajs/vue3'
-import { route } from 'ziggy-js'
 
 const page = usePage()
 

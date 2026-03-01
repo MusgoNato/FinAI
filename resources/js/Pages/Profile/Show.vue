@@ -2,7 +2,6 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { route } from 'ziggy-js';
 
 const page = usePage()
 const user = page.props.auth.user
@@ -30,8 +29,8 @@ const handleDelete = () => {
 
     <!-- Toast Sucesso -->
     <div v-if="SuccessMessage"
-         class="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
-      <div class="alert alert-success shadow-xl w-96 rounded-2xl">
+         class="fixed top-20 left-1/2 -translate-x-1/2 z-50">
+      <div class="alert alert-success shadow-xl w-96 rounded-2xl fade-out">
         <span>{{ SuccessMessage }}</span>
       </div>
     </div>

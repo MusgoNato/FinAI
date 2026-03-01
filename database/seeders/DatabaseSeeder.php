@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('123456789'),
             'email_verified_at' => now(),
+            'has_local_password' => true,
         ]);
 
         Transaction::factory()

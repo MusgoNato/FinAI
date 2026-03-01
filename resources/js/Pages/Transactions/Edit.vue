@@ -4,7 +4,6 @@ import { useForm, usePage } from '@inertiajs/vue3';
 import Type from '@/Components/Type.vue';
 import Category from '@/Components/Category.vue';
 import { computed } from 'vue';
-import { route } from 'ziggy-js';
 
 const page = usePage();
 

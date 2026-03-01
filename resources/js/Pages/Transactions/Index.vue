@@ -4,7 +4,6 @@ import CategoryFilter from '@/Components/CategoryFilter.vue';
 import TypeFilter from '@/Components/TypeFilter.vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
-import { route } from 'ziggy-js';
 import Pagination from '@/Components/Pagination.vue';
 import { debounce } from 'lodash';
 import DataFilter from '@/Components/DataFilter.vue';
@@ -92,7 +91,7 @@ const formatCurrency = (value) =>
 
     <!-- Toast -->
     <div v-if="SuccessMessage" class="toast toast-top toast-center z-50">
-        <div class="alert alert-success shadow-xl">
+        <div class="alert alert-success shadow-xl fade-out">
             <span class="font-medium">{{ SuccessMessage }}</span>
         </div>
     </div>

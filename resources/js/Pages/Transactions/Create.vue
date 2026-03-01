@@ -1,7 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
-import { route } from 'ziggy-js';
 import Category from '@/Components/Category.vue';
 import Type from '@/Components/Type.vue';
 

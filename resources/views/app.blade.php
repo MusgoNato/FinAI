@@ -26,7 +26,7 @@
         </style>
     @endif
     @inertiaHead
-
+    @routes
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
     <body class="min-h-screen bg-base-200">
