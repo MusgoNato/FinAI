@@ -59,7 +59,6 @@
 import { reactive, ref } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link, useForm } from '@inertiajs/vue3'
-import { route } from 'ziggy-js'
 
 const form = useForm({
   email: ''

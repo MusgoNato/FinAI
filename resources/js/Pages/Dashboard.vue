@@ -3,7 +3,6 @@
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { ref, computed, watch } from 'vue'
-import { route } from 'ziggy-js'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 
@@ -75,7 +74,7 @@ const renderedInsight = computed(() => {
       v-if="successMessage"
       class="toast toast-top toast-center z-50"
     >
-      <div class="alert alert-success shadow-xl">
+      <div class="alert alert-success shadow-xl fade-out">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="stroke-current shrink-0 h-6 w-6"

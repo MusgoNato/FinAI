@@ -2,7 +2,6 @@
 import { useForm, usePage } from '@inertiajs/vue3'
 import { reactive, ref } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
-import { route } from 'ziggy-js'
 
 const page = usePage()
 

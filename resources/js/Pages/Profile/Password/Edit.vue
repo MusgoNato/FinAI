@@ -3,7 +3,6 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import { route } from 'ziggy-js';
 const page = usePage()
 
 const form = useForm({

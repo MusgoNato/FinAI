@@ -3,7 +3,6 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { computed, onMounted } from 'vue';
-import { route } from 'ziggy-js';
 
 const page = usePage()
 
@@ -29,12 +28,6 @@ const handleFileChange = (e) => {
     form.profile_image = e.target.files[0]
 }
 
-// Envio das info para o controller no BackEnd (Deve ser POST com o tipo do metodo sendo PUT no useForm, para que o Laravel
-// consiga decodificar e chegar de forma correta no UserProfileController, caso não seja desse modo ele não enviara os campos corretamente)
-// No caso se trocar para post abaixo ele da erro de rota com metodo diferente Vue(POST) -> Laravel(PUT). O forceFormData transforma tudo em 
-// DataForm, que le arquivos de forma correta, mas os outros campos não são lidos corretamente, mesmo populados o Laravel não consegue ler e rejeita-os
-// Assim sendo, a melhor forma é enviar via POST e adicionar o _method PUT no useForm, pois ao enviar o formulario este tera o metodo PUT e o Laravel conseguirá decodificar 
-// tanto os campos name, email e o profile_image.
 const UpdateInfoProfile = () => {
     form.post(route('profile.update'), {
         preserveScroll: true,        
@@ -50,7 +43,7 @@ const UpdateInfoProfile = () => {
     <!-- Toast -->
     <div v-if="SuccessMessage"
          class="fixed top-20 left-1/2 -translate-x-1/2 z-50">
-      <div class="alert alert-success shadow-xl rounded-2xl w-96">
+      <div class="alert alert-success shadow-xl fade-out">
         <span>{{ SuccessMessage }}</span>
       </div>
     </div>
