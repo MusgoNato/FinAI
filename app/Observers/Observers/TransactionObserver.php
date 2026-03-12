@@ -51,5 +51,6 @@ class TransactionObserver
     public function clearCache(int $userId): void
     {
         Cache::forget("ai_insight_{$userId}");
+        Cache::forget("dashboard_data_{$userId}");
     }
 }
