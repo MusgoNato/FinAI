@@ -6,15 +6,17 @@
     >
       <div
         :class="[
-          'shadow-xl rounded-2xl w-96 p-4 text-white flex justify-between items-center',
+          'shadow-lg rounded-2xl w-96 p-4 flex justify-between items-center border',
           alertClasses
         ]"
       >
-        <span>{{ message }}</span>
-
+        <div class="flex items-center gap-3">
+          <span class="text-xl">{{ alertIcon }}</span>
+          <span class="text-sm font-medium">{{ message }}</span>
+        </div>
         <button
           @click="close"
-          class="ml-4 text-lg font-bold opacity-70 hover:opacity-100"
+          class="ml-4 text-lg font-bold opacity-50 hover:opacity-100 transition-opacity"
         >
           ×
         </button>
@@ -49,11 +51,24 @@ const visible = ref(true)
 
 const alertClasses = computed(() => {
   return {
-    'bg-green-500': props.type === 'success',
-    'bg-red-500': props.type === 'error',
-    'bg-yellow-500': props.type === 'warning',
-    'bg-blue-500': props.type === 'info'
+    // Success — verde suave com fundo claro
+    'bg-emerald-50 text-emerald-800 border-emerald-200': props.type === 'success',
+    // Error — vermelho rosado com fundo claro
+    'bg-rose-50 text-rose-800 border-rose-200': props.type === 'error',
+    // Warning — âmbar suave com fundo claro
+    'bg-amber-50 text-amber-800 border-amber-200': props.type === 'warning',
+    // Info — azul índigo suave com fundo claro
+    'bg-sky-50 text-sky-800 border-sky-200': props.type === 'info',
   }
+})
+
+const alertIcon = computed(() => {
+  return {
+    success: '✅',
+    error: '❌',
+    warning: '⚠️',
+    info: 'ℹ️',
+  }[props.type] ?? 'ℹ️'
 })
 
 const close = () => {
@@ -64,7 +79,6 @@ watch(
   () => props.message,
   () => {
     visible.value = true
-
     if (props.autoClose) {
       setTimeout(() => {
         close()

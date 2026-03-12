@@ -5,6 +5,11 @@ import { Link, router, usePage } from '@inertiajs/vue3'
 import { ref, computed, watch } from 'vue'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
+import Alert from '@/Components/Alert.vue'
+
+import { useFlash } from '@/Composables/useFlash';
+
+const { alerType, alertMessage } = useFlash();
 
 const page = usePage()
 const user = page.props.auth.user
@@ -42,7 +47,7 @@ const formattedTotalByTypes = computed(() => {
 const formatCurrency = (value) =>
   currencyFormatter.format(value ?? 0)
 
-const successMessage = computed(() => page.props.flash?.success ?? '');
+
 
 // Delete transaction
 const onDeleteTransaction = (id) => {
@@ -69,28 +74,8 @@ const renderedInsight = computed(() => {
 
 <template>
   <AppLayout title="Dashboard">
-    <!-- Success Toast -->
-    <div
-      v-if="successMessage"
-      class="toast toast-top toast-center z-50"
-    >
-      <div class="alert alert-success shadow-xl fade-out">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="stroke-current shrink-0 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span>{{ successMessage }}</span>
-      </div>
-    </div>
+    
+    <Alert v-if="alertMessage" :message="alertMessage" :type="alerType" />
 
     <div class="container mx-auto px-4 py-8 max-w-7xl">
       <!-- Header -->

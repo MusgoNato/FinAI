@@ -21,9 +21,8 @@ const form = useForm({
 });
 
 const onUpdateTransaction = (id) => {
-    form.post(route('transactions.store', id), {
+    form.put(route('transactions.update', id), {
         preserveScroll: true,
-        _method: 'PUT',
     })
 };
 </script>
