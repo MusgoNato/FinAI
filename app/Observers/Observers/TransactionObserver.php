@@ -5,7 +5,7 @@ namespace App\Observers\Observers;
 use App\Models\Transaction;
 use Cache;
 
-class TransactionObersver
+class TransactionObserver
 {
     /**
      * Handle the Transaction "created" event.
