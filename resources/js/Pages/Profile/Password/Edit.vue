@@ -3,6 +3,12 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import Alert from '@/Components/Alert.vue';
+import { useFlash } from '@/Composables/useFlash';
+
+
+const { alertType, alertMessage } = useFlash();
+
 const page = usePage()
 
 const form = useForm({
@@ -14,11 +20,6 @@ const form = useForm({
 const hasLocalPassword = computed(
     () => page.props.hasLocalPassword
 )
-
-const SuccessMessage = computed(
-    () => page.props.flash.success
-)
-
 
 const updatedPassword = () => {
     form.put(route('profile.update_password'), {
@@ -41,16 +42,10 @@ const updatedPassword = () => {
 </script>
 
 <template>
-    <div v-if="SuccessMessage" class="fixed top-18 left-1/2 transform -translate-x-1/2 z-50 fade-out">
-        <div class="alert alert-success shadow-lg flex items-center gap-2 w-96 fade-out">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current h-6 w-6" fill="none" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-            <span>{{ SuccessMessage }}</span>
-        </div>
-    </div>
-
     <AppLayout>
+
+        <Alert v-if="alertMessage" :message="alertMessage" :type="alertType" />
+
         <div class="w-full max-w-4xl mx-auto px-4 py-6">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <h1 class="text-3xl font-bold">Alterar Senha</h1>

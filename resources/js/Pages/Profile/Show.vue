@@ -1,16 +1,15 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import Alert from '@/Components/Alert.vue';
+import { useFlash } from '@/Composables/useFlash';
+const { alertType, alertMessage } = useFlash();
 
 const page = usePage()
 const user = page.props.auth.user
 
 const form = useForm({})
-
-const SuccessMessage = computed(
-    () => page.props.flash.success 
-) 
+ 
 
 const handleDelete = () => {
     if(confirm('Tem certeza que deseja excluir sua conta?')){
@@ -27,13 +26,7 @@ const handleDelete = () => {
 <template>
   <AppLayout>
 
-    <!-- Toast Sucesso -->
-    <div v-if="SuccessMessage"
-         class="fixed top-20 left-1/2 -translate-x-1/2 z-50">
-      <div class="alert alert-success shadow-xl w-96 rounded-2xl fade-out">
-        <span>{{ SuccessMessage }}</span>
-      </div>
-    </div>
+    <Alert v-if="alertMessage" :message="alertMessage" :type="alertType" />
 
     <div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
 

@@ -7,6 +7,11 @@ import { computed, ref, watch } from 'vue';
 import Pagination from '@/Components/Pagination.vue';
 import { debounce } from 'lodash';
 import DataFilter from '@/Components/DataFilter.vue';
+import Alert from '@/Components/Alert.vue';
+
+import { useFlash } from '@/Composables/useFlash'; 
+
+const { alerType, alertMessage } = useFlash();
 
 const page = usePage();
 
@@ -15,10 +20,6 @@ const props = defineProps({
     filters: Object,
     category: Object,
 });
-
-const SuccessMessage = computed(
-    () => page.props.flash.success
-);
 
 const paginator = computed(() => page.props.transactions);
 const transactions = computed(() => paginator.value.data);
@@ -89,12 +90,7 @@ const formatCurrency = (value) =>
 <template>
 <AppLayout>
 
-    <!-- Toast -->
-    <div v-if="SuccessMessage" class="toast toast-top toast-center z-50">
-        <div class="alert alert-success shadow-xl fade-out">
-            <span class="font-medium">{{ SuccessMessage }}</span>
-        </div>
-    </div>
+    <Alert v-if="alertMessage" :message="alertMessage" :type="alerType"></Alert>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
