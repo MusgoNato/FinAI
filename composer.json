@@ -19,6 +19,7 @@
         "livewire/livewire": "^4.1",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^1.16",
+        "predis/predis": "^3.4",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
