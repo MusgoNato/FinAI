@@ -3,6 +3,8 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { computed, onMounted } from 'vue';
+import Alert from '@/Components/Alert.vue';
+import { useFlash } from '@/Composables/useFlash';
 
 const page = usePage()
 
@@ -10,10 +12,7 @@ const errors = computed(() => page.props.errors)
 
 const user = computed(() => page.props.auth.user)
 
-
-const SuccessMessage = computed(
-    () => page.props.flash.success
-)
+const { alertType, alertMessage } = useFlash();
 
 
 const form = useForm({
@@ -40,13 +39,7 @@ const UpdateInfoProfile = () => {
 <template>
   <AppLayout>
 
-    <!-- Toast -->
-    <div v-if="SuccessMessage"
-         class="fixed top-20 left-1/2 -translate-x-1/2 z-50">
-      <div class="alert alert-success shadow-xl fade-out">
-        <span>{{ SuccessMessage }}</span>
-      </div>
-    </div>
+    <Alert v-if="alertMessage" :message="alertMessage" :type="alerType" />
 
     <div class="max-w-4xl mx-auto px-4 py-10 space-y-8">
 
@@ -138,6 +131,7 @@ const UpdateInfoProfile = () => {
               type="email"
               class="input input-bordered w-full rounded-xl h-12 focus:input-primary"
               required
+              disabled="true"
             />
 
             <span class="text-error text-sm mt-1">

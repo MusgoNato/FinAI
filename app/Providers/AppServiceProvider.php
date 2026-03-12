@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Transaction;
-use App\Observers\Observers\TransactionObserver;
+use App\Models\User;
+use App\Observers\TransactionObserver;
+use App\Observers\UserProfileObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // Observers
         Transaction::observe(TransactionObserver::class);
+        User::observe(UserProfileObserver::class);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers\Observers;
+namespace App\Observers;
 
 use App\Models\Transaction;
 use Cache;
