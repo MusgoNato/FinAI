@@ -71,12 +71,6 @@ const user = page.props.auth.user
             </Link>
           </li>
 
-          <li>
-            <span class="block px-4 py-2 text-sm text-base-content/50">
-              <del>Configurações</del>
-            </span>
-          </li>
-
           <div class="divider my-0"></div>
 
           <li>

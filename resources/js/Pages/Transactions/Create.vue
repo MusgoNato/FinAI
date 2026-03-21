@@ -153,7 +153,7 @@ const onCreateNewTransaction = () => {
                     <div class="pt-4">
                         <button 
                             type="submit" 
-                            class="btn btn-primary w-full md:w-auto md:px-10 shadow-md hover:shadow-lg transition"
+                            class="btn btn-primary"
                             :class="{ 'loading': form.processing }"
                         >
                             Registrar Transação

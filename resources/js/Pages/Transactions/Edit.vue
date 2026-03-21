@@ -158,7 +158,7 @@ const onUpdateTransaction = (id) => {
                     <button 
                         @click="onUpdateTransaction(transaction_info.id)"
                         type="submit"
-                        class="btn btn-primary w-full md:w-auto md:px-10 shadow-md hover:shadow-lg transition"
+                        class="btn btn-primary"
                         :class="{ 'loading': form.processing }"
                     >
                         Atualizar Transação
