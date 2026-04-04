@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import Category from '@/Components/Category.vue';
 import Type from '@/Components/Type.vue';
+import { ref, nextTick } from 'vue';
 
 const page = usePage();
 const errors = page.props.errors;
@@ -11,7 +12,7 @@ const form = useForm({
     description: '',
     category: page.props.old?.category ?? '',
     type: page.props.old?.type ?? '',
-    price: '',
+    price: null,
     date: '',
     notes: '',
 });
@@ -19,6 +20,38 @@ const form = useForm({
 const onCreateNewTransaction = () => {
     form.post(route('transactions.store'))
 };
+
+// Valor exibido formatado (ex: "1.234,56")
+const displayPrice = ref('');
+
+const onPriceInput = (event) => {
+    // Remove tudo que não for dígito
+    const onlyDigits = event.target.value.replace(/\D/g, '');
+
+    // Limita a 9 dígitos (máximo: 9.999.999,99)
+    const limited = onlyDigits.slice(0, 9);
+
+    // Converte para float dividindo por 100 (os dois últimos são centavos)
+    const numeric = parseFloat(limited) / 100 || 0;
+
+    // Formata no padrão pt-BR
+    displayPrice.value = numeric.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+
+    // Atualiza o valor real no form (número puro para o backend)
+    form.price = numeric;
+
+    // Mantém o cursor sempre no final
+    nextTick(() => {
+        event.target.setSelectionRange(
+            displayPrice.value.length,
+            displayPrice.value.length
+        );
+    });
+};
+
 </script>
 
 <template>
@@ -96,21 +129,22 @@ const onCreateNewTransaction = () => {
                         <label class="label">
                             <span class="label-text font-medium">Valor</span>
                         </label>
-                        <input 
-                            v-model="form.price"
-                            type="number" 
-                            name="price" 
-                            class="input input-bordered w-full focus:input-primary transition"
-                            step="0.01" 
-                            placeholder="Ex: 150.00"
-                            max="9999999"
-                            required
-                        >
+                        <div class="relative">
+                            <input 
+                                v-model="displayPrice"
+                                @input="onPriceInput"
+                                type="text" 
+                                name="price"
+                                inputmode="numeric"
+                                class="input input-bordered w-full focus:input-primary transition pl-10"
+                                placeholder="0,00"
+                                required
+                            >
+                        </div>
                         <span v-if="errors.price" class="text-error text-sm mt-1">
                             {{ errors.price }}
                         </span>
                     </div>
-
                     <!-- Data -->
                     <div class="form-control">
                         <label class="label">
